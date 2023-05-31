@@ -1,2 +1,3 @@
-import Project from "./modules/project.js";
-window.Project = Project;
+import Display from "./modules/display.js";
+
+document.addEventListener("DOMContentLoaded", Display.createForm);
