@@ -17,6 +17,7 @@ export default class Display {
     titleInput.setAttribute("name", "title");
     titleInput.setAttribute("placeholder", "title");
 
+    body.appendChild(container);
     container.appendChild(formElement);
     formElement.appendChild(titleInput);
   }
