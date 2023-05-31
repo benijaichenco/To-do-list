@@ -16,7 +16,17 @@
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _modules_project_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/project.js */ \"./src/modules/project.js\");\n\r\nwindow.Project = _modules_project_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"];\r\n\n\n//# sourceURL=webpack://project-todo-list/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _modules_display_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/display.js */ \"./src/modules/display.js\");\n\r\n\r\ndocument.addEventListener(\"DOMContentLoaded\", _modules_display_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"].createForm);\r\n\n\n//# sourceURL=webpack://project-todo-list/./src/index.js?");
+
+/***/ }),
+
+/***/ "./src/modules/display.js":
+/*!********************************!*\
+  !*** ./src/modules/display.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ Display)\n/* harmony export */ });\n/* harmony import */ var _project_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./project.js */ \"./src/modules/project.js\");\n/* harmony import */ var _task_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./task.js */ \"./src/modules/task.js\");\n\r\n\r\n\r\nclass Display {\r\n  static createForm() {\r\n    const body = document.body;\r\n    const container = document.createElement(\"div\");\r\n    container.classList.add(\".container\");\r\n\r\n    const formElement = document.createElement(\"form\");\r\n    formElement.setAttribute(\"action\", \"#\");\r\n    formElement.setAttribute(\"method\", \"get\");\r\n\r\n    const titleInput = document.createElement(\"input\");\r\n    titleInput.classList.add(\"task-title-input\");\r\n    titleInput.setAttribute(\"type\", \"text\");\r\n    titleInput.setAttribute(\"name\", \"title\");\r\n    titleInput.setAttribute(\"placeholder\", \"title\");\r\n\r\n    container.appendChild(formElement);\r\n    formElement.appendChild(titleInput);\r\n  }\r\n}\r\n\n\n//# sourceURL=webpack://project-todo-list/./src/modules/display.js?");
 
 /***/ }),
 
