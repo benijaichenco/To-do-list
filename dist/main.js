@@ -16,7 +16,7 @@
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _modules_project_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/project.js */ \"./src/modules/project.js\");\n\r\n\r\nwindow.Project = _modules_project_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"];\r\n\n\n//# sourceURL=webpack://project-todo-list/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _modules_project_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/project.js */ \"./src/modules/project.js\");\n\r\nwindow.Project = _modules_project_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"];\r\n\n\n//# sourceURL=webpack://project-todo-list/./src/index.js?");
 
 /***/ }),
 
