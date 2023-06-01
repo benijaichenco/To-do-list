@@ -171,6 +171,51 @@ body {
   padding: 50px 100px;
 }
 
+.add-task-button {
+  transition: 0.3s ease-in-out;
+  position: relative;
+  right: 20px;
+  margin-bottom: 20px;
+  border: none;
+  display: flex;
+  align-items: center;
+}
+
+.add-task-button:hover {
+  cursor: pointer;
+  transform: scale(1.15);
+}
+
+.add-task-button:active {
+  transition: 80ms ease-in-out;
+  transform: scale(1.1);
+}
+
+.add-task-button img {
+  transition: 0.3s ease-in-out;
+  height: 30px;
+  filter: invert(0.7) sepia(0.6) hue-rotate(80deg) saturate(250%);
+}
+
+.add-task-button:hover img {
+  transform: translateX(-20%);
+}
+
+.add-task-button-text {
+  transition: 0.3s ease-in-out;
+  position: relative;
+  transform: translateX(-20%);
+  opacity: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--black);
+}
+
+.add-task-button:hover .add-task-button-text {
+  transform: translateX(0);
+  opacity: 1;
+}
+
 .main-tasks {
   display: flex;
   flex-direction: column;
