@@ -1,5 +1,6 @@
 :root {
-  --grey: rgb(148, 148, 148);
+  --red: rgb(211, 70, 70);
+  --light-grey: rgb(230, 230, 230);
   --white: rgb(238, 238, 238);
 }
 
@@ -10,30 +11,35 @@
 
 body {
   margin: 0;
+  background-color: var(--white);
 }
 
+/* start of header */
 .header {
-  height: 90px;
+  height: 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px 30px;
-  background-color: var(--grey);
-  color: var(--white);
+  background-color: var(--red);
 }
 
 .header-left {
   display: flex;
-  gap: 15px;
+  gap: 10px;
   align-items: center;
 }
 
+.header-left .text-logo {
+  font-size: 1.6rem;
+  color: var(--white);
+}
+
 .header .logo {
-  height: 50px;
+  height: 35px;
 }
 
 .header-right {
-  font-size: 2em;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -46,7 +52,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--white);
   font-size: 1.2rem;
   font-weight: bold;
 }
@@ -56,6 +61,8 @@ body {
 }
 
 .add-project-button-text {
+  color: var(--white);
+  font-size: 1rem;
   position: relative;
   transform: translateX(50%);
   transition: 0.3s ease-in-out;
@@ -70,7 +77,7 @@ body {
 .add-project-img {
   position: relative;
   top: 2.5px;
-  height: 40px;
+  height: 35px;
   transition: 0.3s ease-in-out;
 }
 
@@ -86,4 +93,12 @@ body {
 .add-project:active .add-project-button-text {
   transition: 50ms ease-in-out;
   transform: scale(0.98);
+}
+/* end of header */
+
+/* start of sidebar */
+.sidebar {
+  background-color: var(--light-grey);
+  height: 100vh;
+  width: 22%;
 }
