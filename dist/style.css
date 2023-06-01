@@ -59,6 +59,10 @@ body {
   font-weight: bold;
 }
 
+.add-project:hover {
+  cursor: pointer;
+}
+
 .add-project .text-container {
   overflow: hidden;
 }
