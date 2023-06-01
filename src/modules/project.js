@@ -8,8 +8,11 @@ export default class Project {
   }
 
   addTask(title, description) {
-    let dueDate = prompt("Date:", "yyyy, mm, dd");
-    dueDate = format(new Date(dueDate), "P");
+    let year = prompt("Year:", "");
+    let month = prompt("Month:", "");
+    let day = prompt("Day:", "");
+    let dueDate = `${year}, ${month}, ${day}`;
+    dueDate = format(new Date(dueDate), "PP");
     const newTask = new Task(title, description, dueDate);
     this.taskList.push(newTask);
   }
