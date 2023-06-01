@@ -1,0 +1,33 @@
+:root {
+  --grey: rgb(148, 148, 148);
+  --white: rgb(238, 238, 238);
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.header {
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  background-color: var(--grey);
+  color: var(--white);
+}
+
+.header-left {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.header-right {
+  font-size: 2em;
+}
