@@ -8,13 +8,21 @@ export default class Project {
   }
 
   addTask(title, description) {
-    let year = prompt("Year:", "");
-    let month = prompt("Month:", "");
-    let day = prompt("Day:", "");
-    let dueDate = `${year}, ${month}, ${day}`;
+    let dueDate = `${this.getDate().year()}, ${this.getDate().month()}, ${this.getDate().day()}`;
     dueDate = format(new Date(dueDate), "PP");
     const newTask = new Task(title, description, dueDate);
     this.taskList.push(newTask);
+  }
+
+  getDate() {
+    const year = () => prompt("Year:", "");
+    const month = () => prompt("Month:", "");
+    const day = () => prompt("Day:", "");
+    return {
+      year,
+      month,
+      day,
+    };
   }
 
   static loadInbox() {
