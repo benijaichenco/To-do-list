@@ -1,3 +1,3 @@
-import Display from "./modules/display.js";
+import Project from "./modules/project";
 
-document.addEventListener("DOMContentLoaded", Display.createForm);
+window.inbox = Project.loadInbox();
