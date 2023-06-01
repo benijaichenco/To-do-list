@@ -7,10 +7,10 @@ export default class Project {
     this.taskList = [];
   }
 
-  addTask(title, description) {
+  addTask(title, description, priority) {
     let dueDate = `${this.getDate().year()}, ${this.getDate().month()}, ${this.getDate().day()}`;
     dueDate = format(new Date(dueDate), "PP");
-    const newTask = new Task(title, description, dueDate);
+    const newTask = new Task(title, description, dueDate, priority);
     this.taskList.push(newTask);
   }
 
