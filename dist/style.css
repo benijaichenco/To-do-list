@@ -13,21 +13,77 @@ body {
 }
 
 .header {
-  height: 80px;
+  height: 90px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 50px;
+  padding: 20px 30px;
   background-color: var(--grey);
   color: var(--white);
 }
 
 .header-left {
   display: flex;
-  gap: 20px;
+  gap: 15px;
   align-items: center;
+}
+
+.header .logo {
+  height: 50px;
 }
 
 .header-right {
   font-size: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-project {
+  transition: 0.3s ease-in-out;
+  border: none;
+  background: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--white);
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.add-project .text-container {
+  overflow: hidden;
+}
+
+.add-project-button-text {
+  position: relative;
+  transform: translateX(50%);
+  transition: 0.3s ease-in-out;
+  opacity: 0;
+}
+
+.add-project:hover .add-project-button-text {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.add-project-img {
+  position: relative;
+  top: 2.5px;
+  height: 40px;
+  transition: 0.3s ease-in-out;
+}
+
+.add-project:hover img {
+  transform: rotate(180deg) scale(0.9);
+}
+
+.add-project:active img {
+  transition: 50ms ease-in-out;
+  transform: rotate(180deg) scale(0.88);
+}
+
+.add-project:active .add-project-button-text {
+  transition: 50ms ease-in-out;
+  transform: scale(0.98);
 }
