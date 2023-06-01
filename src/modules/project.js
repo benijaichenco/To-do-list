@@ -1,4 +1,5 @@
 import Task from "./task.js";
+import { format } from "date-fns";
 
 export default class Project {
   constructor(projectTitle) {
@@ -7,7 +8,8 @@ export default class Project {
   }
 
   addTask(title, description) {
-    const newTask = new Task(title, description);
+    const dateCreated = format(new Date(), "Pp");
+    const newTask = new Task(title, description, dateCreated);
     this.taskList.push(newTask);
   }
 
