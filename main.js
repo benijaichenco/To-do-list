@@ -366,7 +366,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _modules_project__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/project */ \"./src/modules/project.js\");\n\r\n\r\nwindow.inbox = _modules_project__WEBPACK_IMPORTED_MODULE_0__[\"default\"].loadInbox();\r\n\n\n//# sourceURL=webpack://project-todo-list/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _modules_display_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/display.js */ \"./src/modules/display.js\");\n\r\n\r\ndocument.addEventListener(\"DOMContentLoaded\", _modules_display_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"].loadHomePage);\r\n\n\n//# sourceURL=webpack://project-todo-list/./src/index.js?");
+
+/***/ }),
+
+/***/ "./src/modules/display.js":
+/*!********************************!*\
+  !*** ./src/modules/display.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ Display)\n/* harmony export */ });\n/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! date-fns */ \"./node_modules/date-fns/esm/format/index.js\");\n/* harmony import */ var _project_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./project.js */ \"./src/modules/project.js\");\n/* harmony import */ var _task_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./task.js */ \"./src/modules/task.js\");\n/* harmony import */ var _images_logo_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../images/logo.png */ \"./src/images/logo.png\");\n/* harmony import */ var _images_plus_circle_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../images/plus-circle.png */ \"./src/images/plus-circle.png\");\n/* harmony import */ var _images_inbox_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../images/inbox.png */ \"./src/images/inbox.png\");\n/* harmony import */ var _images_pencil_plus_svg__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../images/pencil-plus.svg */ \"./src/images/pencil-plus.svg\");\n/* harmony import */ var _images_trash_svg__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../images/trash.svg */ \"./src/images/trash.svg\");\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nclass Display {\r\n  static loadHomePage() {\r\n    Display.createHeader();\r\n    Display.createContainer();\r\n  }\r\n\r\n  // create header function\r\n  static createHeader() {\r\n    const body = document.body;\r\n\r\n    // create header\r\n    const header = document.createElement(\"header\");\r\n    header.classList.add(\"header\");\r\n    body.appendChild(header);\r\n\r\n    // left header part\r\n    const headerLeft = document.createElement(\"div\");\r\n    headerLeft.classList.add(\"header-left\");\r\n    header.appendChild(headerLeft);\r\n\r\n    const logoImg = document.createElement(\"img\");\r\n    logoImg.classList.add(\"logo\");\r\n    logoImg.setAttribute(\"src\", _images_logo_png__WEBPACK_IMPORTED_MODULE_2__);\r\n    headerLeft.appendChild(logoImg);\r\n\r\n    const logoText = document.createElement(\"h1\");\r\n    logoText.classList.add(\"text-logo\");\r\n    logoText.textContent = \"To-Do\";\r\n    headerLeft.appendChild(logoText);\r\n\r\n    // right header part\r\n    const headerRight = document.createElement(\"div\");\r\n    headerRight.classList.add(\"header-right\");\r\n    header.appendChild(headerRight);\r\n\r\n    const addProjectBtn = document.createElement(\"button\");\r\n    addProjectBtn.classList.add(\"add-project\");\r\n    addProjectBtn.removeEventListener(\"click\", _project_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"].addProject);\r\n    addProjectBtn.addEventListener(\"click\", _project_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"].addProject);\r\n    headerRight.appendChild(addProjectBtn);\r\n\r\n    const textContainer = document.createElement(\"div\");\r\n    textContainer.classList.add(\"text-container\");\r\n    addProjectBtn.appendChild(textContainer);\r\n\r\n    const addProjectBtnText = document.createElement(\"div\");\r\n    addProjectBtnText.classList.add(\"add-project-button-text\");\r\n    addProjectBtnText.textContent = \"Add Project\";\r\n    textContainer.appendChild(addProjectBtnText);\r\n\r\n    const plusSignSpan = document.createElement(\"span\");\r\n    plusSignSpan.classList.add(\"plus-sign\");\r\n    addProjectBtn.appendChild(plusSignSpan);\r\n\r\n    const plusSignImg = document.createElement(\"img\");\r\n    plusSignImg.classList.add(\"add-project-img\");\r\n    plusSignImg.setAttribute(\"src\", _images_plus_circle_png__WEBPACK_IMPORTED_MODULE_3__);\r\n    plusSignSpan.appendChild(plusSignImg);\r\n  }\r\n\r\n  // create container function\r\n  static createContainer() {\r\n    const body = document.body;\r\n\r\n    const container = document.createElement(\"div\");\r\n    container.classList.add(\"container\");\r\n    body.appendChild(container);\r\n    Display.createSidebar();\r\n    Display.createMain();\r\n  }\r\n\r\n  // create sidebar function\r\n  static createSidebar() {\r\n    const container = document.querySelector(\".container\");\r\n\r\n    const sidebar = document.createElement(\"div\");\r\n    sidebar.classList.add(\"sidebar\");\r\n    container.appendChild(sidebar);\r\n\r\n    const defaultProjects = document.createElement(\"div\");\r\n    defaultProjects.classList.add(\"default-projects\");\r\n    sidebar.appendChild(defaultProjects);\r\n\r\n    const inbox = document.createElement(\"button\");\r\n    inbox.classList.add(\"sidebar-inbox-button\");\r\n    inbox.removeEventListener(\"click\", Display.showInbox);\r\n    inbox.addEventListener(\"click\", Display.showInbox);\r\n    defaultProjects.appendChild(inbox);\r\n\r\n    const inboxIcon = document.createElement(\"div\");\r\n    inboxIcon.classList.add(\"sidebar-inbox-icon\");\r\n    inbox.appendChild(inboxIcon);\r\n\r\n    const inboxIconImg = document.createElement(\"img\");\r\n    inboxIconImg.setAttribute(\"src\", _images_inbox_png__WEBPACK_IMPORTED_MODULE_4__);\r\n    inboxIcon.appendChild(inboxIconImg);\r\n\r\n    const inboxTitle = document.createElement(\"div\");\r\n    inboxTitle.classList.add(\"sidebar-inbox-title\");\r\n    inboxTitle.textContent = \"Inbox\";\r\n    inbox.appendChild(inboxTitle);\r\n  }\r\n\r\n  // create main div function\r\n  static createMain() {\r\n    const container = document.querySelector(\".container\");\r\n\r\n    const main = document.createElement(\"div\");\r\n    main.classList.add(\"main\");\r\n    container.appendChild(main);\r\n    createAddTask();\r\n    createTaskList();\r\n\r\n    // create add task button container inside main function\r\n    function createAddTask() {\r\n      // add task button container\r\n      const addTaskContainer = document.createElement(\"div\");\r\n      addTaskContainer.classList.add(\"add-task-container\");\r\n      main.appendChild(addTaskContainer);\r\n\r\n      const btn = document.createElement(\"button\");\r\n      btn.classList.add(\"add-task-button\");\r\n      btn.removeEventListener(\"click\", _project_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"].addTask);\r\n      btn.addEventListener(\"click\", _project_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"].addTask);\r\n      addTaskContainer.appendChild(btn);\r\n\r\n      const btnSpan = document.createElement(\"span\");\r\n      btnSpan.classList.add(\"add-task-icon\");\r\n      btn.appendChild(btnSpan);\r\n\r\n      const btnImg = document.createElement(\"img\");\r\n      btnImg.setAttribute(\"src\", _images_pencil_plus_svg__WEBPACK_IMPORTED_MODULE_5__);\r\n      btnSpan.appendChild(btnImg);\r\n\r\n      const textContainer = document.createElement(\"div\");\r\n      textContainer.classList.add(\"text-container\");\r\n      btn.appendChild(textContainer);\r\n\r\n      const btnText = document.createElement(\"div\");\r\n      btnText.classList.add(\"add-task-button-text\");\r\n      btnText.textContent = \"Add task\";\r\n      textContainer.appendChild(btnText);\r\n    }\r\n\r\n    // create task list inside main function\r\n    function createTaskList() {\r\n      const listContainer = document.createElement(\"div\");\r\n      listContainer.classList.add(\"main-tasks\");\r\n      main.appendChild(listContainer);\r\n\r\n      const task = document.createElement(\"div\");\r\n      task.classList.add(\"task\");\r\n      listContainer.appendChild(task);\r\n\r\n      // left task content\r\n      const taskLeft = document.createElement(\"div\");\r\n      taskLeft.classList.add(\"task-left\");\r\n      task.appendChild(taskLeft);\r\n\r\n      const checkBtn = document.createElement(\"button\");\r\n      checkBtn.classList.add(\"task-check\");\r\n      taskLeft.appendChild(checkBtn);\r\n\r\n      const taskTitle = document.createElement(\"div\");\r\n      taskTitle.classList.add(\"task-title\");\r\n      taskTitle.textContent = \"This is a task\";\r\n      taskLeft.appendChild(taskTitle);\r\n\r\n      // right task content\r\n      const taskRight = document.createElement(\"div\");\r\n      taskRight.classList.add(\"task-right\");\r\n      task.appendChild(taskRight);\r\n\r\n      const date = document.createElement(\"div\");\r\n      date.classList.add(\"task-date\");\r\n      date.textContent = `${(0,date_fns__WEBPACK_IMPORTED_MODULE_7__[\"default\"])(new Date(), \"P\")}`;\r\n      taskRight.appendChild(date);\r\n\r\n      const deleteBtn = document.createElement(\"button\");\r\n      deleteBtn.classList.add(\"delete-task-button\");\r\n      taskRight.appendChild(deleteBtn);\r\n\r\n      const deleteBtnImg = document.createElement(\"img\");\r\n      deleteBtnImg.setAttribute(\"src\", _images_trash_svg__WEBPACK_IMPORTED_MODULE_6__);\r\n      deleteBtn.appendChild(deleteBtnImg);\r\n    }\r\n  }\r\n\r\n  static showInbox() {\r\n    console.log(\"show inbox function\");\r\n  }\r\n}\r\n\n\n//# sourceURL=webpack://project-todo-list/./src/modules/display.js?");
 
 /***/ }),
 
@@ -376,7 +386,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _mod
   \********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ Project)\n/* harmony export */ });\n/* harmony import */ var _task_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./task.js */ \"./src/modules/task.js\");\n/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! date-fns */ \"./node_modules/date-fns/esm/format/index.js\");\n\r\n\r\n\r\nclass Project {\r\n  constructor(projectTitle) {\r\n    this.projectTitle = projectTitle;\r\n    this.taskList = [];\r\n  }\r\n\r\n  addTask(title, description) {\r\n    let dueDate = `${this.getDate().year()}, ${this.getDate().month()}, ${this.getDate().day()}`;\r\n    dueDate = (0,date_fns__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(new Date(dueDate), \"PP\");\r\n    const newTask = new _task_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"](title, description, dueDate);\r\n    this.taskList.push(newTask);\r\n  }\r\n\r\n  getDate() {\r\n    const year = () => prompt(\"Year:\", \"\");\r\n    const month = () => prompt(\"Month:\", \"\");\r\n    const day = () => prompt(\"Day:\", \"\");\r\n    return {\r\n      year,\r\n      month,\r\n      day,\r\n    };\r\n  }\r\n\r\n  static loadInbox() {\r\n    const inbox = new Project(\"Inbox\");\r\n    return inbox;\r\n  }\r\n}\r\n\n\n//# sourceURL=webpack://project-todo-list/./src/modules/project.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ Project)\n/* harmony export */ });\n/* harmony import */ var _task_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./task.js */ \"./src/modules/task.js\");\n/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! date-fns */ \"./node_modules/date-fns/esm/format/index.js\");\n\r\n\r\n\r\nclass Project {\r\n  constructor(projectTitle) {\r\n    this.projectTitle = projectTitle;\r\n    this.taskList = [];\r\n  }\r\n\r\n  addTask(title, description, priority) {\r\n    let dueDate = `${this.getDate().year()}, ${this.getDate().month()}, ${this.getDate().day()}`;\r\n    dueDate = (0,date_fns__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(new Date(dueDate), \"PP\");\r\n    const newTask = new _task_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"](title, description, dueDate, priority);\r\n    this.taskList.push(newTask);\r\n  }\r\n\r\n  getDate() {\r\n    const year = () => prompt(\"Year:\", \"\");\r\n    const month = () => prompt(\"Month:\", \"\");\r\n    const day = () => prompt(\"Day:\", \"\");\r\n    return {\r\n      year,\r\n      month,\r\n      day,\r\n    };\r\n  }\r\n\r\n  static loadInbox() {\r\n    const inbox = new Project(\"Inbox\");\r\n    return inbox;\r\n  }\r\n\r\n  static addProject() {\r\n    console.log(\"create add project function\");\r\n  }\r\n}\r\n\n\n//# sourceURL=webpack://project-todo-list/./src/modules/project.js?");
 
 /***/ }),
 
@@ -387,6 +397,56 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ Task)\n/* harmony export */ });\nclass Task {\r\n  constructor(title, description, dueDate, priority) {\r\n    this.title = title;\r\n    this.description = description;\r\n    this.dueDate = dueDate;\r\n    this.priority = priority;\r\n  }\r\n}\r\n\n\n//# sourceURL=webpack://project-todo-list/./src/modules/task.js?");
+
+/***/ }),
+
+/***/ "./src/images/inbox.png":
+/*!******************************!*\
+  !*** ./src/images/inbox.png ***!
+  \******************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("module.exports = __webpack_require__.p + \"0139f0c4aef1243766a5.png\";\n\n//# sourceURL=webpack://project-todo-list/./src/images/inbox.png?");
+
+/***/ }),
+
+/***/ "./src/images/logo.png":
+/*!*****************************!*\
+  !*** ./src/images/logo.png ***!
+  \*****************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("module.exports = __webpack_require__.p + \"32652151fd21e0530073.png\";\n\n//# sourceURL=webpack://project-todo-list/./src/images/logo.png?");
+
+/***/ }),
+
+/***/ "./src/images/pencil-plus.svg":
+/*!************************************!*\
+  !*** ./src/images/pencil-plus.svg ***!
+  \************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("module.exports = __webpack_require__.p + \"378dacad5886df7eb57d.svg\";\n\n//# sourceURL=webpack://project-todo-list/./src/images/pencil-plus.svg?");
+
+/***/ }),
+
+/***/ "./src/images/plus-circle.png":
+/*!************************************!*\
+  !*** ./src/images/plus-circle.png ***!
+  \************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("module.exports = __webpack_require__.p + \"bdfe81ee4445a0ecf092.png\";\n\n//# sourceURL=webpack://project-todo-list/./src/images/plus-circle.png?");
+
+/***/ }),
+
+/***/ "./src/images/trash.svg":
+/*!******************************!*\
+  !*** ./src/images/trash.svg ***!
+  \******************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("module.exports = __webpack_require__.p + \"bcf8d6ff346603c8a51a.svg\";\n\n//# sourceURL=webpack://project-todo-list/./src/images/trash.svg?");
 
 /***/ }),
 
@@ -439,6 +499,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
@@ -453,6 +525,29 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript)
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && !scriptUrl) scriptUrl = scripts[i--].src;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
 /******/ 	})();
 /******/ 	
 /************************************************************************/
