@@ -1,3 +1,3 @@
-import Project from "./modules/project";
+import Display from "./modules/display.js";
 
-window.inbox = Project.loadInbox();
+document.addEventListener("DOMContentLoaded", Display.loadHomePage);
