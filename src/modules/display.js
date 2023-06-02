@@ -1,8 +1,11 @@
+import { format } from "date-fns";
 import Project from "./project.js";
 import Task from "./task.js";
 import logo from "../images/logo.png";
 import plusSign from "../images/plus-circle.png";
 import inboxImg from "../images/inbox.png";
+import addTaskImg from "../images/pencil-plus.svg";
+import trashIcon from "../images/trash.svg";
 
 export default class Display {
   static loadHomePage() {
@@ -109,7 +112,87 @@ export default class Display {
 
   // create main div function
   static createMain() {
-    console.log("create main");
+    const container = document.querySelector(".container");
+
+    const main = document.createElement("div");
+    main.classList.add("main");
+    container.appendChild(main);
+    createAddTask();
+    createTaskList();
+
+    // create add task button container inside main function
+    function createAddTask() {
+      // add task button container
+      const addTaskContainer = document.createElement("div");
+      addTaskContainer.classList.add("add-task-container");
+      main.appendChild(addTaskContainer);
+
+      const btn = document.createElement("button");
+      btn.classList.add("add-task-button");
+      btn.removeEventListener("click", Project.addTask);
+      btn.addEventListener("click", Project.addTask);
+      addTaskContainer.appendChild(btn);
+
+      const btnSpan = document.createElement("span");
+      btnSpan.classList.add("add-task-icon");
+      btn.appendChild(btnSpan);
+
+      const btnImg = document.createElement("img");
+      btnImg.setAttribute("src", addTaskImg);
+      btnSpan.appendChild(btnImg);
+
+      const textContainer = document.createElement("div");
+      textContainer.classList.add("text-container");
+      btn.appendChild(textContainer);
+
+      const btnText = document.createElement("div");
+      btnText.classList.add("add-task-button-text");
+      btnText.textContent = "Add task";
+      textContainer.appendChild(btnText);
+    }
+
+    // create task list inside main function
+    function createTaskList() {
+      const listContainer = document.createElement("div");
+      listContainer.classList.add("main-tasks");
+      main.appendChild(listContainer);
+
+      const task = document.createElement("div");
+      task.classList.add("task");
+      listContainer.appendChild(task);
+
+      // left task content
+      const taskLeft = document.createElement("div");
+      taskLeft.classList.add("task-left");
+      task.appendChild(taskLeft);
+
+      const checkBtn = document.createElement("button");
+      checkBtn.classList.add("task-check");
+      taskLeft.appendChild(checkBtn);
+
+      const taskTitle = document.createElement("div");
+      taskTitle.classList.add("task-title");
+      taskTitle.textContent = "This is a task";
+      taskLeft.appendChild(taskTitle);
+
+      // right task content
+      const taskRight = document.createElement("div");
+      taskRight.classList.add("task-right");
+      task.appendChild(taskRight);
+
+      const date = document.createElement("div");
+      date.classList.add("task-date");
+      date.textContent = `${format(new Date(), "P")}`;
+      taskRight.appendChild(date);
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.classList.add("delete-task-button");
+      taskRight.appendChild(deleteBtn);
+
+      const deleteBtnImg = document.createElement("img");
+      deleteBtnImg.setAttribute("src", trashIcon);
+      deleteBtn.appendChild(deleteBtnImg);
+    }
   }
 
   static showInbox() {
