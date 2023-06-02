@@ -2,13 +2,16 @@ import Project from "./project.js";
 import Task from "./task.js";
 import logo from "../images/logo.png";
 import plusSign from "../images/plus-circle.png";
+import inboxImg from "../images/inbox.png";
 
 export default class Display {
   static loadHomePage() {
-    Display.getHeader();
+    Display.createHeader();
+    Display.createContainer();
   }
 
-  static getHeader() {
+  // create header function
+  static createHeader() {
     const body = document.body;
 
     // create header
@@ -59,5 +62,57 @@ export default class Display {
     plusSignImg.classList.add("add-project-img");
     plusSignImg.setAttribute("src", plusSign);
     plusSignSpan.appendChild(plusSignImg);
+  }
+
+  // create container function
+  static createContainer() {
+    const body = document.body;
+
+    const container = document.createElement("div");
+    container.classList.add("container");
+    body.appendChild(container);
+    Display.createSidebar();
+    Display.createMain();
+  }
+
+  // create sidebar function
+  static createSidebar() {
+    const container = document.querySelector(".container");
+
+    const sidebar = document.createElement("div");
+    sidebar.classList.add("sidebar");
+    container.appendChild(sidebar);
+
+    const defaultProjects = document.createElement("div");
+    defaultProjects.classList.add("default-projects");
+    sidebar.appendChild(defaultProjects);
+
+    const inbox = document.createElement("button");
+    inbox.classList.add("sidebar-inbox-button");
+    inbox.removeEventListener("click", Display.showInbox);
+    inbox.addEventListener("click", Display.showInbox);
+    defaultProjects.appendChild(inbox);
+
+    const inboxIcon = document.createElement("div");
+    inboxIcon.classList.add("sidebar-inbox-icon");
+    inbox.appendChild(inboxIcon);
+
+    const inboxIconImg = document.createElement("img");
+    inboxIconImg.setAttribute("src", inboxImg);
+    inboxIcon.appendChild(inboxIconImg);
+
+    const inboxTitle = document.createElement("div");
+    inboxTitle.classList.add("sidebar-inbox-title");
+    inboxTitle.textContent = "Inbox";
+    inbox.appendChild(inboxTitle);
+  }
+
+  // create main div function
+  static createMain() {
+    console.log("create main");
+  }
+
+  static showInbox() {
+    console.log("show inbox function");
   }
 }
