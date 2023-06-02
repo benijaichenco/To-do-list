@@ -44,8 +44,6 @@ export default class Display {
 
     const addProjectBtn = document.createElement("button");
     addProjectBtn.classList.add("add-project");
-    addProjectBtn.removeEventListener("click", Project.addProject);
-    addProjectBtn.addEventListener("click", Project.addProject);
     headerRight.appendChild(addProjectBtn);
 
     const textContainer = document.createElement("div");
@@ -92,8 +90,6 @@ export default class Display {
 
     const inbox = document.createElement("button");
     inbox.classList.add("sidebar-inbox-button");
-    inbox.removeEventListener("click", Display.showInbox);
-    inbox.addEventListener("click", Display.showInbox);
     defaultProjects.appendChild(inbox);
 
     const inboxIcon = document.createElement("div");
@@ -129,8 +125,6 @@ export default class Display {
 
       const btn = document.createElement("button");
       btn.classList.add("add-task-button");
-      btn.removeEventListener("click", Project.addTask);
-      btn.addEventListener("click", Project.addTask);
       addTaskContainer.appendChild(btn);
 
       const btnSpan = document.createElement("span");
