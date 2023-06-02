@@ -29,4 +29,8 @@ export default class Project {
     const inbox = new Project("Inbox");
     return inbox;
   }
+
+  static addProject() {
+    console.log("create add project function");
+  }
 }
