@@ -275,19 +275,19 @@ body {
   padding: 0 8px;
 }
 
-.delete-button {
+.delete-task-button {
   border: none;
   display: flex;
   align-items: center;
 }
 
-.delete-button img {
+.delete-task-button img {
   transition: 70ms ease-in-out;
   height: 25px;
   filter: invert(0.5) sepia(0.9) hue-rotate(-55deg) saturate(300%);
 }
 
-.delete-button:hover img {
+.delete-task-button:hover img {
   transform: scale(1.1);
   cursor: pointer;
 }
