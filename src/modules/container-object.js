@@ -12,6 +12,6 @@ export default class ProjectList {
 
   addProject(title) {
     const newProject = new Project(title);
-    this.projects.push(newProject);
+    this.userProjects.push(newProject);
   }
 }
