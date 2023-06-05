@@ -8,8 +8,9 @@ export default class Project {
   }
 
   addTask(title, description, priority) {
-    let dueDate = `${this.getDate().year()}, ${this.getDate().month()}, ${this.getDate().day()}`;
-    dueDate = format(new Date(dueDate), "PP");
+    // let dueDate = `${this.getDate().year()}, ${this.getDate().month()}, ${this.getDate().day()}`;
+    // dueDate = format(new Date(dueDate), "PP");
+    let dueDate = new Date();
     const newTask = new Task(title, description, dueDate, priority);
     this.taskList.push(newTask);
   }
@@ -23,10 +24,5 @@ export default class Project {
       month,
       day,
     };
-  }
-
-  static loadInbox() {
-    const inbox = new Project("Inbox");
-    return inbox;
   }
 }
