@@ -16,6 +16,7 @@ export default class Display {
   static loadHomePage() {
     Display.createContainerObject();
     Display.createHeader();
+    Display.createContent();
   }
 
   // create new container object:
@@ -75,5 +76,36 @@ export default class Display {
     addProjectBtnImg.classList.add("add-project-img");
     addProjectBtnImg.setAttribute("src", addProjectImg);
     plusSignSpan.appendChild(addProjectBtnImg);
+  }
+
+  // create content:
+  static createContent() {
+    const body = document.body;
+
+    const content = document.createElement("div");
+    content.classList.add("content");
+    body.appendChild(content);
+
+    // create sidebar inside content div:
+    function createSidebar() {
+      const content = document.querySelector(".content");
+
+      const sidebar = document.createElement("div");
+      sidebar.classList.add("sidebar");
+      content.appendChild(sidebar);
+
+      const defaultProjectsDiv = document.createElement("div");
+      defaultProjectsDiv.classList.add("default-projects");
+      sidebar.appendChild(defaultProjectsDiv);
+      Display.createDefaultProjectButton();
+    }
+
+    // create main inside content div:
+    function createMain() {
+      console.log("creating main");
+    }
+
+    createSidebar();
+    createMain();
   }
 }
