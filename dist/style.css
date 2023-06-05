@@ -27,18 +27,25 @@ body {
 
 .header-left {
   flex-shrink: 0;
-  display: flex;
-  gap: 10px;
-  align-items: center;
 }
 
-.header-left .text-logo {
+.logo-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.logo {
+  height: 35px;
+}
+
+.logo-text {
   font-size: 1.6rem;
   color: var(--white);
-}
-
-.header .logo {
-  height: 35px;
 }
 
 .header-right {
@@ -63,11 +70,11 @@ body {
   cursor: pointer;
 }
 
-.add-project .text-container {
+.add-project-btn-text-container {
   overflow: hidden;
 }
 
-.add-project-button-text {
+.add-project-btn-text {
   color: var(--white);
   font-size: 1rem;
   position: relative;
@@ -76,7 +83,7 @@ body {
   opacity: 0;
 }
 
-.add-project:hover .add-project-button-text {
+.add-project:hover .add-project-btn-text {
   transform: translateX(0);
   opacity: 1;
 }
@@ -97,14 +104,14 @@ body {
   transform: rotate(180deg) scale(0.88);
 }
 
-.add-project:active .add-project-button-text {
+.add-project:active .add-project-btn-text {
   transition: 50ms ease-in-out;
   transform: scale(0.98);
 }
 /* end of header */
 
 /* start of container */
-.container {
+.content {
   display: flex;
 }
 /* end of container */
@@ -116,18 +123,29 @@ body {
   width: 300px;
   min-width: 200px;
 
-  padding: 20px;
+  padding: 0 20px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .default-projects {
+  padding: 20px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--black);
+}
+
+.projects {
+  padding: 20px 0;
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.sidebar-inbox-button {
+.sidebar-project {
+  height: 40px;
   padding: 5px;
   border: none;
   border-radius: 8px;
@@ -138,17 +156,17 @@ body {
   transition: 30ms ease-in-out;
 }
 
-.sidebar-inbox-button:active {
+.sidebar-project:active {
   transform: scale(0.98);
   filter: brightness(1.02);
 }
 
-.sidebar-inbox-button:hover {
+.sidebar-project:hover {
   cursor: pointer;
   background-color: var(--white);
 }
 
-.sidebar-inbox-title {
+.sidebar-project-title {
   position: relative;
   top: -1px;
   font-size: 1rem;
@@ -156,11 +174,29 @@ body {
   color: var(--black);
 }
 
-.sidebar-inbox-icon img {
+.sidebar-project-icon img {
   height: 30px;
   position: relative;
   top: 2.5px;
-  filter: invert(0.7) sepia(0.8) hue-rotate(150deg) saturate(200%);
+}
+
+.inbox img {
+  filter: invert(0.7) sepia(0.6) hue-rotate(150deg) saturate(200%);
+}
+
+.today img {
+  filter: invert(0.7) sepia(0.6) hue-rotate(80deg) saturate(200%);
+}
+
+.this-week img {
+  filter: invert(0.7) sepia(0.6) hue-rotate(260deg) saturate(200%);
+}
+
+.project-icon-div {
+  height: 10px;
+  width: 10px;
+  border-radius: 100%;
+  background-color: var(--black);
 }
 /* end of sidebar */
 
@@ -169,6 +205,14 @@ body {
   background-color: var(--white);
   flex: 1;
   padding: 50px 100px;
+}
+
+.current-project-title {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 10px;
+  color: var(--black);
+  font-weight: bold;
 }
 
 .add-task-container {
