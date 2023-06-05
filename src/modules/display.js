@@ -57,6 +57,8 @@ export default class Display {
 
     const addProjectBtn = document.createElement("button");
     addProjectBtn.classList.add("add-project");
+    addProjectBtn.removeEventListener("click", Display.addProject);
+    addProjectBtn.addEventListener("click", Display.addProject);
     headerRight.appendChild(addProjectBtn);
 
     const addProjectBtnTextContainer = document.createElement("div");
@@ -97,7 +99,55 @@ export default class Display {
       const defaultProjectsDiv = document.createElement("div");
       defaultProjectsDiv.classList.add("default-projects");
       sidebar.appendChild(defaultProjectsDiv);
-      Display.createDefaultProjectButton();
+
+      const userProjectsDiv = document.createElement("div");
+      userProjectsDiv.classList.add("user-projects");
+      sidebar.appendChild(userProjectsDiv);
+
+      // create default projects buttons:
+      function createDefaultProjectButtons() {
+        const defaultProjectsDiv = document.querySelector(".default-projects");
+
+        for (let project of Display.containerObject.defaultProjects) {
+          const projectButton = document.createElement("button");
+          projectButton.setAttribute("id", "default");
+          projectButton.classList.add("sidebar-project");
+          projectButton.classList.add(
+            project.projectTitle.replace(/\s/g, "-").toLowerCase()
+          );
+          defaultProjectsDiv.appendChild(projectButton);
+
+          const buttonIconDiv = document.createElement("div");
+          buttonIconDiv.classList.add("sidebar-project-icon");
+          projectButton.appendChild(buttonIconDiv);
+
+          const buttonIcon = document.createElement("img");
+          buttonIconDiv.appendChild(buttonIcon);
+
+          const buttonTitle = document.createElement("div");
+          buttonTitle.classList.add("sidebar-project-title");
+          buttonTitle.textContent = `${project.projectTitle}`;
+          projectButton.appendChild(buttonTitle);
+        }
+
+        const inboxButtonIcon = document.querySelector(
+          ".default-projects .inbox img"
+        );
+        inboxButtonIcon.setAttribute("src", inboxImg);
+
+        const todayButtonIcon = document.querySelector(
+          ".default-projects .today img"
+        );
+        todayButtonIcon.setAttribute("src", todayImg);
+
+        const thisweekProjectIcon = document.querySelector(
+          ".default-projects .this-week img"
+        );
+        thisweekProjectIcon.setAttribute("src", thisWeekImg);
+      }
+
+      createDefaultProjectButtons();
+      Display.updateUserProjectButtons();
     }
 
     // create main inside content div:
@@ -107,5 +157,44 @@ export default class Display {
 
     createSidebar();
     createMain();
+  }
+
+  static addProject() {
+    const title = prompt("project title", "");
+    const newProject = Display.containerObject.addProject(title);
+    const findNewProject = Display.containerObject.userProjects.find(
+      (project) => project.projectTitle === title
+    );
+    const newProjectIndex =
+      Display.containerObject.userProjects.indexOf(findNewProject);
+    console.log(
+      `Adding "${title}" to user projects, with index of ${newProjectIndex}:`
+    );
+    console.log(findNewProject);
+    Display.updateUserProjectButtons();
+  }
+
+  static updateUserProjectButtons() {
+    const userProjectsDiv = document.querySelector(".user-projects");
+    userProjectsDiv.innerHTML = "";
+    const userProjects = Display.containerObject.userProjects;
+    for (let project of userProjects) {
+      console.log(project.projectTitle);
+      console.log(userProjectsDiv);
+
+      const projectButton = document.createElement("button");
+      projectButton.classList.add("sidebar-project");
+      projectButton.classList.add("user");
+      userProjectsDiv.appendChild(projectButton);
+
+      const projectButtonDiv = document.createElement("div");
+      projectButtonDiv.classList.add("user-project-div");
+      projectButton.appendChild(projectButtonDiv);
+
+      const projectButtonText = document.createElement("div");
+      projectButtonText.classList.add("sidebar-project-title");
+      projectButtonText.textContent = project.projectTitle;
+      projectButton.appendChild(projectButtonText);
+    }
   }
 }
