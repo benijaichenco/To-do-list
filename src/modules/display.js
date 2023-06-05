@@ -111,7 +111,7 @@ export default class Display {
         for (let project of Display.containerObject.defaultProjects) {
           const projectButton = document.createElement("button");
           projectButton.setAttribute("id", "default");
-          projectButton.classList.add("sidebar-project");
+          projectButton.classList.add("sidebar-default-project");
           projectButton.classList.add(
             project.projectTitle.replace(/\s/g, "-").toLowerCase()
           );
@@ -183,18 +183,34 @@ export default class Display {
       console.log(userProjectsDiv);
 
       const projectButton = document.createElement("button");
-      projectButton.classList.add("sidebar-project");
-      projectButton.classList.add("user");
+      projectButton.classList.add("sidebar-user-project");
       userProjectsDiv.appendChild(projectButton);
 
-      const projectButtonDiv = document.createElement("div");
-      projectButtonDiv.classList.add("user-project-div");
-      projectButton.appendChild(projectButtonDiv);
+      const projectButtonLeft = document.createElement("div");
+      projectButtonLeft.classList.add("user-project-left");
+      projectButton.appendChild(projectButtonLeft);
+
+      const projectButtonDot = document.createElement("div");
+      projectButtonDot.classList.add("user-project-dot");
+      projectButtonLeft.appendChild(projectButtonDot);
 
       const projectButtonText = document.createElement("div");
       projectButtonText.classList.add("sidebar-project-title");
       projectButtonText.textContent = project.projectTitle;
-      projectButton.appendChild(projectButtonText);
+      projectButtonLeft.appendChild(projectButtonText);
+
+      const projectButtonRight = document.createElement("div");
+      projectButtonRight.classList.add("user-project-right");
+      projectButton.appendChild(projectButtonRight);
+
+      const deleteProject = document.createElement("div");
+      deleteProject.classList.add("delete-project");
+      deleteProject.textContent = "🞬";
+      deleteProject.removeEventListener("click", Display.deleteProject);
+      deleteProject.addEventListener("click", Display.deleteProject);
+      projectButtonRight.appendChild(deleteProject);
     }
   }
+
+  static deleteProject(e) {}
 }
