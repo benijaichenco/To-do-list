@@ -164,7 +164,9 @@ export default class Display {
       projectTitleContainer.classList.add("current-project-title");
       main.appendChild(projectTitleContainer);
 
-      const addTaskContainer = document.createElement("div");
+      const tasksContainer = document.createElement("div");
+      tasksContainer.classList.add("tasks-container");
+      main.appendChild(tasksContainer);
     }
 
     createSidebar();
@@ -191,9 +193,6 @@ export default class Display {
     userProjectsDiv.innerHTML = "";
     const userProjects = Display.containerObject.userProjects;
     for (let project of userProjects) {
-      console.log(project.projectTitle);
-      console.log(userProjectsDiv);
-
       const userProjectContainer = document.createElement("div");
       userProjectContainer.classList.add("user-project-container");
       userProjectsDiv.appendChild(userProjectContainer);
@@ -233,23 +232,83 @@ export default class Display {
   static deleteProject(e) {
     const title = e.target.parentNode.parentNode.textContent;
     const projectTitle = title.slice(0, -2);
-    console.log(projectTitle);
     const findProject = Display.containerObject.userProjects.find(
       (project) => project.projectTitle === projectTitle
     );
     const projectIndex =
       Display.containerObject.userProjects.indexOf(findProject);
-    console.log(findProject);
-    console.log(projectIndex);
     const userConfirm = prompt("Type 'delete' to delete project:", "");
     if (userConfirm === "delete") {
       Display.containerObject.userProjects.splice(projectIndex, 1);
-      console.log(Display.containerObject.userProjects);
       Display.updateUserProjectButtons();
     } else return;
   }
 
-  static updateTaskList() {
-    console.log("updating task list");
+  static updateTaskList(e) {
+    const classList = e.currentTarget.parentNode.parentNode.classList.value;
+    const userList = Display.containerObject.userProjects;
+    const defaultList = Display.containerObject.defaultProjects;
+
+    let listType;
+    classList.includes("user")
+      ? (listType = userList)
+      : (listType = defaultList);
+
+    let title;
+    let projectTitle;
+    if (listType === userList) {
+      title = e.currentTarget.parentNode.parentNode.textContent;
+      projectTitle = title.slice(0, -2);
+    } else {
+      projectTitle = e.currentTarget.textContent;
+    }
+    const findProject = listType.find(
+      (project) => project.projectTitle === projectTitle
+    );
+    console.log(findProject);
+    const taskList = findProject.taskList;
+    console.log(taskList);
+
+    const projectTitleDiv = document.querySelector(".current-project-title");
+    projectTitleDiv.textContent = projectTitle;
+
+    const tasksContainer = document.querySelector(".tasks-container");
+    tasksContainer.innerHTML = "";
+
+    for (let task of taskList) {
+      const taskDiv = document.createElement("div");
+      taskDiv.classList.add("task");
+      tasksContainer.appendChild(taskDiv);
+
+      const taskLeft = document.createElement("div");
+      taskLeft.classList.add("task-left");
+      taskDiv.appendChild(taskLeft);
+
+      const markTaskComplete = document.createElement("button");
+      markTaskComplete.classList.add("mark-task-complete");
+      taskLeft.appendChild(markTaskComplete);
+
+      const taskTitle = document.createElement("div");
+      taskTitle.classList.add("task-title");
+      taskTitle.textContent = task.title;
+      taskLeft.appendChild(taskTitle);
+
+      const taskRight = document.createElement("div");
+      taskRight.classList.add("task-right");
+      taskDiv.appendChild(taskRight);
+
+      const taskDate = document.createElement("div");
+      taskDate.classList.add("task-date");
+      taskDate.textContent = `${format(new Date(), "P")}`;
+      taskRight.appendChild(taskDate);
+
+      const deleteTaskBtn = document.createElement("button");
+      deleteTaskBtn.classList.add("delete-task-button");
+      taskRight.appendChild(deleteTaskBtn);
+
+      const deleteTaskImg = document.createElement("img");
+      deleteTaskImg.setAttribute("src", trashImg);
+      deleteTaskBtn.appendChild(deleteTaskImg);
+    }
   }
 }
