@@ -212,5 +212,22 @@ export default class Display {
     }
   }
 
-  static deleteProject(e) {}
+  static deleteProject(e) {
+    const title = e.target.parentNode.parentNode.textContent;
+    const projectTitle = title.slice(0, -2);
+    console.log(projectTitle);
+    const findProject = Display.containerObject.userProjects.find(
+      (project) => project.projectTitle === projectTitle
+    );
+    const projectIndex =
+      Display.containerObject.userProjects.indexOf(findProject);
+    console.log(findProject);
+    console.log(projectIndex);
+    const userConfirm = prompt("Type 'delete' to delete project:", "");
+    if (userConfirm === "delete") {
+      Display.containerObject.userProjects.splice(projectIndex, 1);
+      console.log(Display.containerObject.userProjects);
+      Display.updateUserProjectButtons();
+    } else return;
+  }
 }
