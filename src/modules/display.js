@@ -115,6 +115,8 @@ export default class Display {
           projectButton.classList.add(
             project.projectTitle.replace(/\s/g, "-").toLowerCase()
           );
+          projectButton.removeEventListener("click", Display.updateTaskList);
+          projectButton.addEventListener("click", Display.updateTaskList);
           defaultProjectsDiv.appendChild(projectButton);
 
           const buttonIconDiv = document.createElement("div");
@@ -157,6 +159,12 @@ export default class Display {
       const main = document.createElement("div");
       main.classList.add("main");
       content.appendChild(main);
+
+      const projectTitleContainer = document.createElement("div");
+      projectTitleContainer.classList.add("current-project-title");
+      main.appendChild(projectTitleContainer);
+
+      const addTaskContainer = document.createElement("div");
     }
 
     createSidebar();
@@ -186,33 +194,39 @@ export default class Display {
       console.log(project.projectTitle);
       console.log(userProjectsDiv);
 
-      const projectButton = document.createElement("button");
-      projectButton.classList.add("sidebar-user-project");
-      userProjectsDiv.appendChild(projectButton);
+      const userProjectContainer = document.createElement("div");
+      userProjectContainer.classList.add("user-project-container");
+      userProjectsDiv.appendChild(userProjectContainer);
 
-      const projectButtonLeft = document.createElement("div");
-      projectButtonLeft.classList.add("user-project-left");
-      projectButton.appendChild(projectButtonLeft);
+      const projectDivLeft = document.createElement("div");
+      projectDivLeft.classList.add("user-project-left");
+      userProjectContainer.appendChild(projectDivLeft);
+
+      const projectButton = document.createElement("button");
+      projectButton.classList.add("user-project-button");
+      projectButton.removeEventListener("click", Display.updateTaskList);
+      projectButton.addEventListener("click", Display.updateTaskList);
+      projectDivLeft.appendChild(projectButton);
 
       const projectButtonDot = document.createElement("div");
       projectButtonDot.classList.add("user-project-dot");
-      projectButtonLeft.appendChild(projectButtonDot);
+      projectButton.appendChild(projectButtonDot);
 
       const projectButtonText = document.createElement("div");
       projectButtonText.classList.add("sidebar-project-title");
       projectButtonText.textContent = project.projectTitle;
-      projectButtonLeft.appendChild(projectButtonText);
+      projectButton.appendChild(projectButtonText);
 
-      const projectButtonRight = document.createElement("div");
-      projectButtonRight.classList.add("user-project-right");
-      projectButton.appendChild(projectButtonRight);
+      const projectDivRight = document.createElement("div");
+      projectDivRight.classList.add("user-project-right");
+      userProjectContainer.appendChild(projectDivRight);
 
-      const deleteProject = document.createElement("div");
+      const deleteProject = document.createElement("button");
       deleteProject.classList.add("delete-project");
       deleteProject.textContent = "🞬";
       deleteProject.removeEventListener("click", Display.deleteProject);
       deleteProject.addEventListener("click", Display.deleteProject);
-      projectButtonRight.appendChild(deleteProject);
+      projectDivRight.appendChild(deleteProject);
     }
   }
 
@@ -233,5 +247,9 @@ export default class Display {
       console.log(Display.containerObject.userProjects);
       Display.updateUserProjectButtons();
     } else return;
+  }
+
+  static updateTaskList() {
+    console.log("updating task list");
   }
 }
