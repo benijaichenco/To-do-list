@@ -152,7 +152,11 @@ export default class Display {
 
     // create main inside content div:
     function createMain() {
-      console.log("creating main");
+      const content = document.querySelector(".content");
+
+      const main = document.createElement("div");
+      main.classList.add("main");
+      content.appendChild(main);
     }
 
     createSidebar();
