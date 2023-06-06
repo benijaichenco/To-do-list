@@ -165,6 +165,33 @@ export default class Display {
       projectTitleContainer.classList.add("current-project-title");
       main.appendChild(projectTitleContainer);
 
+      const addTaskBtnContainer = document.createElement("div");
+      addTaskBtnContainer.classList.add("add-task-button-container");
+      main.appendChild(addTaskBtnContainer);
+
+      const addTaskBtn = document.createElement("button");
+      addTaskBtn.classList.add("add-task-button");
+      addTaskBtn.removeEventListener("click", Display.addTask);
+      addTaskBtn.addEventListener("click", Display.addTask);
+      addTaskBtnContainer.appendChild(addTaskBtn);
+
+      const addTaskSpan = document.createElement("span");
+      addTaskSpan.classList.add("add-task-icon");
+      addTaskBtn.appendChild(addTaskSpan);
+
+      const addTaskBtnImg = document.createElement("img");
+      addTaskBtnImg.setAttribute("src", addTaskImg);
+      addTaskSpan.appendChild(addTaskBtnImg);
+
+      const addTaskTextContainer = document.createElement("div");
+      addTaskTextContainer.classList.add("add-task-text-container");
+      addTaskBtn.appendChild(addTaskTextContainer);
+
+      const addTaskText = document.createElement("div");
+      addTaskText.classList.add("add-task-button-text");
+      addTaskText.textContent = "Add Task";
+      addTaskTextContainer.appendChild(addTaskText);
+
       const tasksContainer = document.createElement("div");
       tasksContainer.classList.add("tasks-container");
       main.appendChild(tasksContainer);
@@ -324,5 +351,9 @@ export default class Display {
     Display.findProject = Display.containerObject.defaultProjects[0];
     console.log(Display.findProject);
     Display.updateTaskList();
+  }
+
+  static addTask() {
+    console.log("adding task");
   }
 }
