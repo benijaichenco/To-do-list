@@ -17,6 +17,7 @@ export default class Display {
     Display.createContainerObject();
     Display.createHeader();
     Display.createContent();
+    Display.loadInbox();
   }
 
   // create new container object:
@@ -115,8 +116,8 @@ export default class Display {
           projectButton.classList.add(
             project.projectTitle.replace(/\s/g, "-").toLowerCase()
           );
-          projectButton.removeEventListener("click", Display.updateTaskList);
-          projectButton.addEventListener("click", Display.updateTaskList);
+          projectButton.removeEventListener("click", Display.getTaskList);
+          projectButton.addEventListener("click", Display.getTaskList);
           defaultProjectsDiv.appendChild(projectButton);
 
           const buttonIconDiv = document.createElement("div");
@@ -203,8 +204,8 @@ export default class Display {
 
       const projectButton = document.createElement("button");
       projectButton.classList.add("user-project-button");
-      projectButton.removeEventListener("click", Display.updateTaskList);
-      projectButton.addEventListener("click", Display.updateTaskList);
+      projectButton.removeEventListener("click", Display.getTaskList);
+      projectButton.addEventListener("click", Display.getTaskList);
       projectDivLeft.appendChild(projectButton);
 
       const projectButtonDot = document.createElement("div");
@@ -241,10 +242,13 @@ export default class Display {
     if (userConfirm === "delete") {
       Display.containerObject.userProjects.splice(projectIndex, 1);
       Display.updateUserProjectButtons();
+      if (Display.findProject.projectTitle === projectTitle) {
+        Display.loadInbox();
+      }
     } else return;
   }
 
-  static updateTaskList(e) {
+  static getTaskList(e) {
     const classList = e.currentTarget.parentNode.parentNode.classList.value;
     const userList = Display.containerObject.userProjects;
     const defaultList = Display.containerObject.defaultProjects;
@@ -254,6 +258,8 @@ export default class Display {
       ? (listType = userList)
       : (listType = defaultList);
 
+    console.log(listType);
+
     let title;
     let projectTitle;
     if (listType === userList) {
@@ -262,15 +268,17 @@ export default class Display {
     } else {
       projectTitle = e.currentTarget.textContent;
     }
-    const findProject = listType.find(
+    Display.findProject = listType.find(
       (project) => project.projectTitle === projectTitle
     );
-    console.log(findProject);
-    const taskList = findProject.taskList;
-    console.log(taskList);
+    Display.updateTaskList();
+  }
+
+  static updateTaskList() {
+    const taskList = Display.findProject.taskList;
 
     const projectTitleDiv = document.querySelector(".current-project-title");
-    projectTitleDiv.textContent = projectTitle;
+    projectTitleDiv.textContent = Display.findProject.projectTitle;
 
     const tasksContainer = document.querySelector(".tasks-container");
     tasksContainer.innerHTML = "";
@@ -310,5 +318,11 @@ export default class Display {
       deleteTaskImg.setAttribute("src", trashImg);
       deleteTaskBtn.appendChild(deleteTaskImg);
     }
+  }
+
+  static loadInbox() {
+    Display.findProject = Display.containerObject.defaultProjects[0];
+    console.log(Display.findProject);
+    Display.updateTaskList();
   }
 }
