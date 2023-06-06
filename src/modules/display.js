@@ -355,5 +355,8 @@ export default class Display {
 
   static addTask() {
     console.log("adding task");
+    const title = prompt("Title:", "");
+    Display.findProject.addTask(title);
+    Display.updateTaskList();
   }
 }
