@@ -1,4 +1,11 @@
-import { format } from "date-fns";
+import {
+  format,
+  isAfter,
+  isBefore,
+  endOfWeek,
+  startOfWeek,
+  addWeeks,
+} from "date-fns";
 import ContainerObject from "./container-object.js";
 import logoImg from "../images/logo.png";
 import addProjectImg from "../images/plus-circle.png";
@@ -116,8 +123,6 @@ export default class Display {
           projectButton.classList.add(
             project.projectTitle.replace(/\s/g, "-").toLowerCase()
           );
-          projectButton.removeEventListener("click", Display.getTaskList);
-          projectButton.addEventListener("click", Display.getTaskList);
           defaultProjectsDiv.appendChild(projectButton);
 
           const buttonIconDiv = document.createElement("div");
@@ -132,6 +137,24 @@ export default class Display {
           buttonTitle.textContent = `${project.projectTitle}`;
           projectButton.appendChild(buttonTitle);
         }
+
+        const inboxButton = document.querySelector(
+          ".sidebar-default-project.inbox"
+        );
+        inboxButton.removeEventListener("click", Display.getTaskList);
+        inboxButton.addEventListener("click", Display.getTaskList);
+
+        const todayButton = document.querySelector(
+          ".sidebar-default-project.today"
+        );
+        todayButton.removeEventListener("click", Display.getTodayTasks);
+        todayButton.addEventListener("click", Display.getTodayTasks);
+
+        const weekButton = document.querySelector(
+          ".sidebar-default-project.this-week"
+        );
+        weekButton.removeEventListener("click", Display.getThisWeekTasks);
+        weekButton.addEventListener("click", Display.getThisWeekTasks);
 
         const inboxButtonIcon = document.querySelector(
           ".default-projects .inbox img"
@@ -203,6 +226,9 @@ export default class Display {
 
   static addProject() {
     const title = prompt("project title", "");
+    if (title === null || title === "") {
+      return;
+    }
     const newProject = Display.containerObject.addProject(title);
     const findNewProject = Display.containerObject.userProjects.find(
       (project) => project.projectTitle === title
@@ -303,6 +329,7 @@ export default class Display {
 
   static updateTaskList() {
     const taskList = Display.findProject.taskList;
+    taskList.sort(Display.compareDates);
 
     const projectTitleDiv = document.querySelector(".current-project-title");
     projectTitleDiv.textContent = Display.findProject.projectTitle;
@@ -334,7 +361,7 @@ export default class Display {
 
       const taskDate = document.createElement("div");
       taskDate.classList.add("task-date");
-      taskDate.textContent = `${format(new Date(), "P")}`;
+      taskDate.textContent = task.date;
       taskRight.appendChild(taskDate);
 
       const deleteTaskBtn = document.createElement("button");
@@ -356,7 +383,103 @@ export default class Display {
   static addTask() {
     console.log("adding task");
     const title = prompt("Title:", "");
-    Display.findProject.addTask(title);
+    if (title === null || title === "") {
+      return;
+    }
+    let date = prompt("Date:", "YYYY/MM/DD");
+    date = format(new Date(date), "PP");
+    Display.findProject.addTask(title, date);
+    if (Display.checkWeek(date)) {
+      Display.containerObject.defaultProjects[2].addTask(title, date);
+    }
     Display.updateTaskList();
+  }
+
+  static checkToday(date) {
+    const taskDate = date;
+    const formattedDate = format(new Date(taskDate), "P");
+    const today = format(new Date(), "P");
+    if (formattedDate === today) {
+      return true;
+    }
+  }
+
+  static getTodayTasks() {
+    const tasks = [];
+
+    const inboxProjectTasks =
+      Display.containerObject.defaultProjects[0].taskList;
+    const userProjects = Display.containerObject.userProjects;
+    for (let project of userProjects) {
+      project.taskList.forEach((task) => {
+        if (Display.checkToday(task.date)) {
+          tasks.push(task);
+        }
+      });
+    }
+
+    inboxProjectTasks.forEach((task) => {
+      if (Display.checkToday(task.date)) {
+        tasks.push(task);
+      }
+    });
+
+    console.log(tasks);
+    Display.containerObject.defaultProjects[1].taskList = tasks;
+    Display.findProject = Display.containerObject.defaultProjects[1];
+    Display.updateTaskList();
+  }
+
+  static checkWeek(date) {
+    const taskDate = date;
+    const formattedDate = format(new Date(taskDate), "P");
+    const weekStart = format(startOfWeek(new Date()), "P");
+    const weekAfter = addWeeks(new Date(weekStart), 1);
+    const checkAfter = isAfter(new Date(weekAfter), new Date(formattedDate));
+
+    if (checkAfter === true) {
+      return true;
+    }
+  }
+
+  static getThisWeekTasks() {
+    const tasks = [];
+
+    const inboxProjectTasks =
+      Display.containerObject.defaultProjects[0].taskList;
+    const userProjectsTasks = Display.containerObject.userProjects;
+    for (let project of userProjectsTasks) {
+      project.taskList.forEach((task) => {
+        if (Display.checkWeek(task.date)) {
+          tasks.push(task);
+        }
+      });
+    }
+
+    inboxProjectTasks.forEach((task) => {
+      if (Display.checkWeek(task.date)) {
+        tasks.push(task);
+      }
+    });
+
+    console.log(inboxProjectTasks);
+    console.log(tasks);
+
+    tasks.sort(Display.compareDates);
+
+    Display.containerObject.defaultProjects[2].taskList = tasks;
+    Display.findProject = Display.containerObject.defaultProjects[2];
+    Display.updateTaskList();
+  }
+
+  static compareDates(a, b) {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    if (dateA > dateB) {
+      return 1;
+    } else if (dateA < dateB) {
+      return -1;
+    }
+    return 0;
   }
 }
