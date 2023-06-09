@@ -1,11 +1,4 @@
-import {
-  format,
-  isAfter,
-  isBefore,
-  endOfWeek,
-  startOfWeek,
-  addWeeks,
-} from "date-fns";
+import { format, isAfter, isBefore, startOfWeek, addWeeks } from "date-fns";
 import ContainerObject from "./container-object.js";
 import logoImg from "../images/logo.png";
 import addProjectImg from "../images/plus-circle.png";
@@ -436,8 +429,9 @@ export default class Display {
     const weekStart = format(startOfWeek(new Date()), "P");
     const weekAfter = addWeeks(new Date(weekStart), 1);
     const checkAfter = isAfter(new Date(weekAfter), new Date(formattedDate));
+    const checkBefore = isBefore(new Date(formattedDate), new Date(weekStart));
 
-    if (checkAfter === true) {
+    if (checkAfter === true && checkBefore === false) {
       return true;
     }
   }
