@@ -358,6 +358,8 @@ export default class Display {
       taskRight.appendChild(taskDate);
 
       const deleteTaskBtn = document.createElement("button");
+      deleteTaskBtn.removeEventListener("click", Display.deleteTask);
+      deleteTaskBtn.addEventListener("click", Display.deleteTask);
       deleteTaskBtn.classList.add("delete-task-button");
       taskRight.appendChild(deleteTaskBtn);
 
@@ -475,5 +477,18 @@ export default class Display {
       return -1;
     }
     return 0;
+  }
+
+  static deleteTask(e) {
+    const task = e.currentTarget.parentNode.parentNode;
+    const title = task.querySelector(".task-title").textContent;
+    const findTask = Display.findProject.taskList.find(
+      (task) => task.title === title
+    );
+    console.log(findTask);
+    const taskIndex = Display.findProject.taskList.indexOf(findTask);
+    console.log(taskIndex);
+    Display.findProject.taskList.splice(taskIndex, 1);
+    Display.updateTaskList();
   }
 }
