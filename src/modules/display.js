@@ -384,13 +384,15 @@ export default class Display {
 
   static addTask() {
     console.log("adding task");
-    const title = prompt("Title:", "");
+    let title = prompt("Title:", "");
     if (title === null || title === "") {
       return;
     }
     let date = prompt("Date:", "YYYY/MM/DD");
     date = format(new Date(date), "PP");
-    Display.findProject.addTask(title, date);
+    console.log(Display.findProject.projectTitle);
+    let project = Display.findProject.projectTitle;
+    Display.findProject.addTask(title, date, project);
     if (Display.checkWeek(date)) {
       Display.containerObject.defaultProjects[2].addTask(title, date);
     }
@@ -508,8 +510,28 @@ export default class Display {
     );
     console.log(findTask);
     const taskIndex = Display.findProject.taskList.indexOf(findTask);
-    console.log(taskIndex);
-    Display.findProject.taskList.splice(taskIndex, 1);
+
+    const projectTitle = Display.findProject.taskList[taskIndex].project;
+    console.log(projectTitle);
+
+    if (projectTitle === "Inbox") {
+      console.log("project is inbox");
+      Display.containerObject.defaultProjects[0].taskList.splice(taskIndex, 1);
+    } else {
+      const findProject = Display.containerObject.userProjects.find(
+        (project) => project.projectTitle === projectTitle
+      );
+      console.log(findProject);
+
+      findProject.taskList.splice(taskIndex, 1);
+    }
+
+    if (
+      Display.findProject.projectTitle === "This week" ||
+      Display.findProject.projectTitle === "Today"
+    ) {
+      Display.findProject.taskList.splice(taskIndex, 1);
+    }
     Display.updateTaskList();
   }
 }
