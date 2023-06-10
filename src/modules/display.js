@@ -183,6 +183,7 @@ export default class Display {
 
       const addTaskBtnContainer = document.createElement("div");
       addTaskBtnContainer.classList.add("add-task-button-container");
+      addTaskBtnContainer.classList.add("active");
       main.appendChild(addTaskBtnContainer);
 
       const addTaskBtn = document.createElement("button");
@@ -295,6 +296,12 @@ export default class Display {
   }
 
   static getTaskList(e) {
+    const addTaskBtnContainer = document.querySelector(
+      ".add-task-button-container"
+    );
+    if (!addTaskBtnContainer.classList.contains("active")) {
+      addTaskBtnContainer.classList.add("active");
+    }
     const classList = e.currentTarget.parentNode.parentNode.classList.value;
     const userList = Display.containerObject.userProjects;
     const defaultList = Display.containerObject.defaultProjects;
@@ -400,6 +407,13 @@ export default class Display {
   }
 
   static getTodayTasks() {
+    const addTaskBtnContainer = document.querySelector(
+      ".add-task-button-container"
+    );
+    if (addTaskBtnContainer.classList.contains("active")) {
+      addTaskBtnContainer.classList.remove("active");
+    }
+
     const tasks = [];
 
     const inboxProjectTasks =
@@ -439,6 +453,13 @@ export default class Display {
   }
 
   static getThisWeekTasks() {
+    const addTaskBtnContainer = document.querySelector(
+      ".add-task-button-container"
+    );
+    if (addTaskBtnContainer.classList.contains("active")) {
+      addTaskBtnContainer.classList.remove("active");
+    }
+
     const tasks = [];
 
     const inboxProjectTasks =
