@@ -5,6 +5,7 @@ import addProjectImg from "../images/plus-circle.png";
 import inboxImg from "../images/inbox.svg";
 import todayImg from "../images/today.svg";
 import thisWeekImg from "../images/week.svg";
+import month from "../images/month.svg";
 import addTaskImg from "../images/pencil-plus.svg";
 import trashImg from "../images/trash.svg";
 
@@ -15,6 +16,7 @@ export default class Display {
   // load home page:
   static loadHomePage() {
     Display.createContainerObject();
+    Display.createProjectForm();
     Display.createHeader();
     Display.createContent();
     Display.loadInbox();
@@ -218,8 +220,59 @@ export default class Display {
     createMain();
   }
 
-  static addProject() {
-    const title = prompt("project title", "");
+  static createProjectForm() {
+    // create form
+    const body = document.body;
+
+    const layout = document.createElement("div");
+    layout.classList.add("project-form-layout");
+    layout.removeEventListener("click", () => {
+      form.classList.remove("active");
+      layout.classList.remove("active");
+    });
+    layout.addEventListener("click", () => {
+      form.classList.remove("active");
+      layout.classList.remove("active");
+    });
+    body.appendChild(layout);
+
+    const form = document.createElement("form");
+    form.classList.add("project-form");
+    form.setAttribute("action", "#");
+    form.setAttribute("method", "get");
+    form.removeEventListener("submit", (event) => {
+      event.preventDefault();
+    });
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+    });
+    body.appendChild(form);
+
+    const titleInput = document.createElement("input");
+    titleInput.classList.add("project-title-input");
+    titleInput.setAttribute("type", "text");
+    titleInput.setAttribute("placeholder", "Project Title");
+    form.appendChild(titleInput);
+
+    const submitBtn = document.createElement("button");
+    submitBtn.removeEventListener("click", Display.submitProject);
+    submitBtn.addEventListener("click", Display.submitProject);
+    submitBtn.setAttribute("type", "submit");
+    submitBtn.classList.add("submit-project-button");
+    submitBtn.textContent = "Create";
+    form.appendChild(submitBtn);
+    //
+  }
+
+  static submitProject() {
+    const form = document.querySelector(".project-form");
+    const layout = document.querySelector(".project-form-layout");
+    form.classList.remove("active");
+    layout.classList.remove("active");
+
+    const titleInput = document.querySelector(".project-title-input");
+    const title = titleInput.value;
+
     if (title === null || title === "") {
       return;
     }
@@ -232,8 +285,18 @@ export default class Display {
     console.log(
       `Adding "${title}" to user projects, with index of ${newProjectIndex}:`
     );
-    console.log(findNewProject);
+    titleInput.value = "";
     Display.updateUserProjectButtons();
+  }
+
+  static addProject() {
+    const form = document.querySelector(".project-form");
+    form.classList.add("active");
+
+    const layout = document.querySelector(".project-form-layout");
+    layout.classList.add("active");
+
+    document.querySelector(".project-title-input").focus();
   }
 
   static updateUserProjectButtons() {
@@ -360,8 +423,8 @@ export default class Display {
       taskDiv.appendChild(taskRight);
 
       const taskDate = document.createElement("div");
-      taskDate.classList.add("task-date");
       taskDate.textContent = task.date;
+      taskDate.classList.add("task-date");
       taskRight.appendChild(taskDate);
 
       const deleteTaskBtn = document.createElement("button");
@@ -388,8 +451,7 @@ export default class Display {
     if (title === null || title === "") {
       return;
     }
-    let date = prompt("Date:", "YYYY/MM/DD");
-    date = format(new Date(date), "PP");
+    let date = format(new Date(), "PP");
     console.log(Display.findProject.projectTitle);
     let project = Display.findProject.projectTitle;
     Display.findProject.addTask(title, date, project);
@@ -397,6 +459,14 @@ export default class Display {
       Display.containerObject.defaultProjects[2].addTask(title, date);
     }
     Display.updateTaskList();
+  }
+
+  static chooseDate() {
+    const taskDateImg = document.querySelector(".task-date-image");
+    taskDateImg.classList.remove("active");
+
+    const taskDateInput = document.querySelector(".task-date-input");
+    taskDateInput.classList.add("active");
   }
 
   static checkToday(date) {
