@@ -17,6 +17,7 @@ export default class Display {
   static loadHomePage() {
     Display.createContainerObject();
     Display.createProjectForm();
+    Display.createTaskForm();
     Display.createHeader();
     Display.createContent();
     Display.loadInbox();
@@ -282,9 +283,6 @@ export default class Display {
     );
     const newProjectIndex =
       Display.containerObject.userProjects.indexOf(findNewProject);
-    console.log(
-      `Adding "${title}" to user projects, with index of ${newProjectIndex}:`
-    );
     titleInput.value = "";
     Display.updateUserProjectButtons();
   }
@@ -358,6 +356,79 @@ export default class Display {
     } else return;
   }
 
+  static createTaskForm() {
+    const body = document.body;
+
+    const layout = document.createElement("div");
+    layout.classList.add("task-form-layout");
+
+    layout.removeEventListener("click", () => {
+      form.classList.remove("active");
+      layout.classList.remove("active");
+    });
+    layout.addEventListener("click", () => {
+      form.classList.remove("active");
+      layout.classList.remove("active");
+    });
+
+    body.appendChild(layout);
+
+    const form = document.createElement("form");
+    form.classList.add("task-form");
+    form.setAttribute("action", "#");
+    form.setAttribute("method", "get");
+    body.appendChild(form);
+
+    const titleInput = document.createElement("input");
+    titleInput.classList.add("task-title-input");
+    titleInput.setAttribute("type", "text");
+    titleInput.setAttribute("placeholder", "Task Title");
+    form.appendChild(titleInput);
+
+    const descriptionInput = document.createElement("textarea");
+    descriptionInput.classList.add("task-description-input");
+    descriptionInput.setAttribute("placeholder", "Description..");
+    form.appendChild(descriptionInput);
+
+    const submitBtn = document.createElement("button");
+    submitBtn.classList.add("submit-task-button");
+    submitBtn.setAttribute("type", "submit");
+    submitBtn.textContent = "Add Task";
+    submitBtn.removeEventListener("click", Display.submitTask);
+    submitBtn.addEventListener("click", Display.submitTask);
+    form.appendChild(submitBtn);
+  }
+
+  static submitTask() {
+    const form = document.querySelector(".task-form");
+    const layout = document.querySelector(".task-form-layout");
+    form.classList.remove("active");
+    layout.classList.remove("active");
+
+    const title = document.querySelector(".task-title-input").value;
+    if (title === null || title === "") {
+      return;
+    }
+
+    const description = document.querySelector(".task-description-input").value;
+
+    let date = format(new Date(), "PP");
+    let project = Display.findProject.projectTitle;
+    Display.findProject.addTask(title, description, date, project);
+    if (Display.checkWeek(date)) {
+      Display.containerObject.defaultProjects[2].addTask(
+        title,
+        description,
+        date,
+        project
+      );
+    }
+
+    document.querySelector(".task-title-input").value = "";
+    document.querySelector(".task-description-input").value = "";
+    Display.updateTaskList();
+  }
+
   static getTaskList(e) {
     const addTaskBtnContainer = document.querySelector(
       ".add-task-button-container"
@@ -373,8 +444,6 @@ export default class Display {
     classList.includes("user")
       ? (listType = userList)
       : (listType = defaultList);
-
-    console.log(listType);
 
     let title;
     let projectTitle;
@@ -402,6 +471,8 @@ export default class Display {
 
     for (let task of taskList) {
       const taskDiv = document.createElement("div");
+      taskDiv.removeEventListener("click", Display.expandTask);
+      taskDiv.addEventListener("click", Display.expandTask);
       taskDiv.classList.add("task");
       tasksContainer.appendChild(taskDiv);
 
@@ -417,6 +488,11 @@ export default class Display {
       taskTitle.classList.add("task-title");
       taskTitle.textContent = task.title;
       taskLeft.appendChild(taskTitle);
+
+      const taskDescription = document.createElement("div");
+      taskDescription.classList.add("task-description");
+      taskDescription.textContent = task.description;
+      taskDiv.appendChild(taskDescription);
 
       const taskRight = document.createElement("div");
       taskRight.classList.add("task-right");
@@ -439,26 +515,31 @@ export default class Display {
     }
   }
 
-  static loadInbox() {
-    Display.findProject = Display.containerObject.defaultProjects[0];
-    console.log(Display.findProject);
-    Display.updateTaskList();
+  static expandTask(e) {
+    if (e.target.classList.value === "task-description") {
+      const task = e.target.parentNode;
+      const description = task.querySelector(".task-description");
+      if (!task.classList.value.includes("active")) {
+        task.classList.add("active");
+        description.classList.add("active");
+      }
+    } else if (e.target.classList.value === "task-description active") {
+      const task = e.target.parentNode;
+      const description = task.querySelector(".task-description");
+
+      task.classList.remove("active");
+      description.classList.remove("active");
+    }
   }
 
   static addTask() {
-    console.log("adding task");
-    let title = prompt("Title:", "");
-    if (title === null || title === "") {
-      return;
-    }
-    let date = format(new Date(), "PP");
-    console.log(Display.findProject.projectTitle);
-    let project = Display.findProject.projectTitle;
-    Display.findProject.addTask(title, date, project);
-    if (Display.checkWeek(date)) {
-      Display.containerObject.defaultProjects[2].addTask(title, date);
-    }
-    Display.updateTaskList();
+    const form = document.querySelector(".task-form");
+    form.classList.add("active");
+
+    const layout = document.querySelector(".task-form-layout");
+    layout.classList.add("active");
+
+    document.querySelector(".task-title-input").focus();
   }
 
   static chooseDate() {
@@ -476,6 +557,17 @@ export default class Display {
     if (formattedDate === today) {
       return true;
     }
+  }
+
+  static compareDates(a, b) {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    if (dateA > dateB) {
+      return 1;
+    } else if (dateA < dateB) {
+      return -1;
+    }
+    return 0;
   }
 
   static getTodayTasks() {
@@ -505,7 +597,6 @@ export default class Display {
       }
     });
 
-    console.log(tasks);
     Display.containerObject.defaultProjects[1].taskList = tasks;
     Display.findProject = Display.containerObject.defaultProjects[1];
     Display.updateTaskList();
@@ -551,25 +642,11 @@ export default class Display {
       }
     });
 
-    console.log(inboxProjectTasks);
-    console.log(tasks);
-
     tasks.sort(Display.compareDates);
 
     Display.containerObject.defaultProjects[2].taskList = tasks;
     Display.findProject = Display.containerObject.defaultProjects[2];
     Display.updateTaskList();
-  }
-
-  static compareDates(a, b) {
-    const dateA = new Date(a.date);
-    const dateB = new Date(b.date);
-    if (dateA > dateB) {
-      return 1;
-    } else if (dateA < dateB) {
-      return -1;
-    }
-    return 0;
   }
 
   static deleteTask(e) {
@@ -578,20 +655,16 @@ export default class Display {
     const findTask = Display.findProject.taskList.find(
       (task) => task.title === title
     );
-    console.log(findTask);
     const taskIndex = Display.findProject.taskList.indexOf(findTask);
 
     const projectTitle = Display.findProject.taskList[taskIndex].project;
-    console.log(projectTitle);
 
     if (projectTitle === "Inbox") {
-      console.log("project is inbox");
       Display.containerObject.defaultProjects[0].taskList.splice(taskIndex, 1);
     } else {
       const findProject = Display.containerObject.userProjects.find(
         (project) => project.projectTitle === projectTitle
       );
-      console.log(findProject);
 
       findProject.taskList.splice(taskIndex, 1);
     }
@@ -602,6 +675,11 @@ export default class Display {
     ) {
       Display.findProject.taskList.splice(taskIndex, 1);
     }
+    Display.updateTaskList();
+  }
+
+  static loadInbox() {
+    Display.findProject = Display.containerObject.defaultProjects[0];
     Display.updateTaskList();
   }
 }
