@@ -482,6 +482,8 @@ export default class Display {
 
       const markTaskComplete = document.createElement("button");
       markTaskComplete.classList.add("mark-task-complete");
+      markTaskComplete.removeEventListener("click", Display.completeTask);
+      markTaskComplete.addEventListener("click", Display.completeTask);
       taskLeft.appendChild(markTaskComplete);
 
       const taskTitle = document.createElement("div");
@@ -515,19 +517,34 @@ export default class Display {
     }
   }
 
+  static completeTask(e) {
+    const checkmark = e.target;
+    const task = e.target.parentNode.parentNode;
+    if (!task.classList.value.includes("complete")) {
+      task.classList.add("complete");
+      checkmark.classList.add("active");
+    } else {
+      task.classList.remove("complete");
+      checkmark.classList.remove("active");
+    }
+    console.log(task);
+    console.log(checkmark);
+  }
+
   static expandTask(e) {
     if (e.target.classList.value === "task-description") {
       const task = e.target.parentNode;
+      const title = task.querySelector(".task-title");
       const description = task.querySelector(".task-description");
-      if (!task.classList.value.includes("active")) {
-        task.classList.add("active");
-        description.classList.add("active");
-      }
+      task.classList.add("active");
+      title.classList.add("active");
+      description.classList.add("active");
     } else if (e.target.classList.value === "task-description active") {
       const task = e.target.parentNode;
+      const title = task.querySelector(".task-title");
       const description = task.querySelector(".task-description");
-
       task.classList.remove("active");
+      title.classList.remove("active");
       description.classList.remove("active");
     }
   }
