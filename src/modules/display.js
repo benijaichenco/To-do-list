@@ -414,13 +414,14 @@ export default class Display {
 
     let date = format(new Date(), "PP");
     let project = Display.findProject.projectTitle;
-    Display.findProject.addTask(title, description, date, project);
+    Display.findProject.addTask(title, description, date, project, "no");
     if (Display.checkWeek(date)) {
       Display.containerObject.defaultProjects[2].addTask(
         title,
         description,
         date,
-        project
+        project,
+        "no"
       );
     }
 
@@ -514,12 +515,23 @@ export default class Display {
       const deleteTaskImg = document.createElement("img");
       deleteTaskImg.setAttribute("src", trashImg);
       deleteTaskBtn.appendChild(deleteTaskImg);
+
+      if (task.completed === "yes") {
+        taskDiv.classList.add("complete");
+        markTaskComplete.classList.add("active");
+      }
     }
   }
 
   static completeTask(e) {
     const checkmark = e.target;
     const task = e.target.parentNode.parentNode;
+    const title = task.querySelector(".task-title").textContent;
+    const findTask = Display.findProject.taskList.find(
+      (task) => task.title === title
+    );
+    findTask.completed = "yes";
+    console.log(findTask.completed);
     if (!task.classList.value.includes("complete")) {
       task.classList.add("complete");
       checkmark.classList.add("active");
@@ -527,8 +539,6 @@ export default class Display {
       task.classList.remove("complete");
       checkmark.classList.remove("active");
     }
-    console.log(task);
-    console.log(checkmark);
   }
 
   static expandTask(e) {
