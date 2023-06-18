@@ -15,8 +15,8 @@ import trashImg from "../images/trash.svg";
 export default class Display {
   // load home page:
   static loadHomePage() {
-    Display.createStorage();
     Display.createContainerObject();
+    Display.createStorage();
     Display.createProjectForm();
     Display.createTaskForm();
     Display.createHeader();
@@ -24,17 +24,23 @@ export default class Display {
     Display.loadInbox();
   }
 
+  // create new container object:
+  static createContainerObject() {
+    const containerObject = new ContainerObject();
+    Display.containerObject = containerObject;
+  }
+
   // create local storage if it doesnt exist:
   static createStorage() {
     if (!localStorage.getItem("projects")) {
       localStorage.setItem("projects", JSON.stringify([]));
     }
-  }
-
-  // create new container object:
-  static createContainerObject() {
-    const containerObject = new ContainerObject();
-    Display.containerObject = containerObject;
+    if (JSON.parse(localStorage.getItem("projects")).length > 0) {
+      for (let project of JSON.parse(localStorage.getItem("projects"))) {
+        console.log(project.projectTitle);
+        Display.containerObject.addProject(project.projectTitle);
+      }
+    }
   }
 
   // create header:
@@ -289,15 +295,15 @@ export default class Display {
     const findNewProject = Display.containerObject.userProjects.find(
       (project) => project.projectTitle === title
     );
-    const newProjectIndex =
-      Display.containerObject.userProjects.indexOf(findNewProject);
     titleInput.value = "";
-    Display.updateUserProjectButtons();
 
     // push to storage:
     const storedProjects = JSON.parse(localStorage.getItem("projects"));
     storedProjects.push(findNewProject);
     localStorage.setItem("projects", JSON.stringify(storedProjects));
+
+    // update user projects buttons
+    Display.updateUserProjectButtons();
   }
 
   static addProject() {
@@ -313,10 +319,6 @@ export default class Display {
   static updateUserProjectButtons() {
     const userProjectsDiv = document.querySelector(".user-projects");
     userProjectsDiv.innerHTML = "";
-    for (let project of JSON.parse(localStorage.getItem("projects"))) {
-      console.log(project.projectTitle);
-      Display.containerObject.addProject(project.projectTitle);
-    }
     const userProjects = Display.containerObject.userProjects;
     for (let project of userProjects) {
       const userProjectContainer = document.createElement("div");
@@ -553,14 +555,14 @@ export default class Display {
     const findTask = Display.findProject.taskList.find(
       (task) => task.title === title
     );
-    findTask.completed = "yes";
-    console.log(findTask.completed);
     if (!task.classList.value.includes("complete")) {
       task.classList.add("complete");
       checkmark.classList.add("active");
+      findTask.completed = "yes";
     } else {
       task.classList.remove("complete");
       checkmark.classList.remove("active");
+      findTask.completed = "no";
     }
   }
 
