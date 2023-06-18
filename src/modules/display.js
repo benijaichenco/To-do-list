@@ -288,9 +288,20 @@ export default class Display {
     const titleInput = document.querySelector(".project-title-input");
     const title = titleInput.value;
 
+    if (
+      Display.containerObject.userProjects.find(
+        (project) => project.projectTitle === title
+      )
+    ) {
+      alert("Name already used");
+      Display.addProject();
+      return;
+    }
+
     if (title === null || title === "") {
       return;
     }
+
     const newProject = Display.containerObject.addProject(title);
     const findNewProject = Display.containerObject.userProjects.find(
       (project) => project.projectTitle === title
