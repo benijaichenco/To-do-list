@@ -15,12 +15,20 @@ import trashImg from "../images/trash.svg";
 export default class Display {
   // load home page:
   static loadHomePage() {
+    Display.createStorage();
     Display.createContainerObject();
     Display.createProjectForm();
     Display.createTaskForm();
     Display.createHeader();
     Display.createContent();
     Display.loadInbox();
+  }
+
+  // create local storage if it doesnt exist:
+  static createStorage() {
+    if (!localStorage.getItem("projects")) {
+      localStorage.setItem("projects", JSON.stringify([]));
+    }
   }
 
   // create new container object:
@@ -285,6 +293,11 @@ export default class Display {
       Display.containerObject.userProjects.indexOf(findNewProject);
     titleInput.value = "";
     Display.updateUserProjectButtons();
+
+    // push to storage:
+    const storedProjects = JSON.parse(localStorage.getItem("projects"));
+    storedProjects.push(findNewProject);
+    localStorage.setItem("projects", JSON.stringify(storedProjects));
   }
 
   static addProject() {
@@ -300,6 +313,10 @@ export default class Display {
   static updateUserProjectButtons() {
     const userProjectsDiv = document.querySelector(".user-projects");
     userProjectsDiv.innerHTML = "";
+    for (let project of JSON.parse(localStorage.getItem("projects"))) {
+      console.log(project.projectTitle);
+      Display.containerObject.addProject(project.projectTitle);
+    }
     const userProjects = Display.containerObject.userProjects;
     for (let project of userProjects) {
       const userProjectContainer = document.createElement("div");
