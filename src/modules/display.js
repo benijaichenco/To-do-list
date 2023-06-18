@@ -377,6 +377,12 @@ export default class Display {
     form.classList.add("task-form");
     form.setAttribute("action", "#");
     form.setAttribute("method", "get");
+    form.removeEventListener("submit", (event) => {
+      event.preventDefault();
+    });
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+    });
     body.appendChild(form);
 
     const titleInput = document.createElement("input");
