@@ -36,10 +36,13 @@ export default class Display {
       localStorage.setItem("projects", JSON.stringify([]));
     }
     if (JSON.parse(localStorage.getItem("projects")).length > 0) {
-      for (let project of JSON.parse(localStorage.getItem("projects"))) {
-        console.log(project.projectTitle);
-        Display.containerObject.addProject(project.projectTitle);
-      }
+      Display.containerObject.userProjects = JSON.parse(
+        localStorage.getItem("projects")
+      );
+      // for (let project of JSON.parse(localStorage.getItem("projects"))) {
+      //   console.log(project.projectTitle);
+      //   Display.containerObject.addProject(project.projectTitle);
+      // }
     }
   }
 
@@ -464,6 +467,11 @@ export default class Display {
       );
     }
 
+    localStorage.setItem(
+      "projects",
+      JSON.stringify(Display.containerObject.userProjects)
+    );
+
     document.querySelector(".task-title-input").value = "";
     document.querySelector(".task-description-input").value = "";
     Display.updateTaskList();
@@ -559,6 +567,11 @@ export default class Display {
         taskDiv.classList.add("complete");
         markTaskComplete.classList.add("active");
       }
+
+      localStorage.setItem(
+        "projects",
+        JSON.stringify(Display.containerObject.userProjects)
+      );
     }
   }
 
@@ -741,6 +754,10 @@ export default class Display {
     ) {
       Display.findProject.taskList.splice(taskIndex, 1);
     }
+    localStorage.setItem(
+      "projects",
+      JSON.stringify(Display.containerObject.userProjects)
+    );
     Display.updateTaskList();
   }
 
