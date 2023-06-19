@@ -32,13 +32,24 @@ export default class Display {
 
   // create local storage if it doesnt exist:
   static createStorage() {
+    // inbox storage
+    if (!localStorage.getItem("inbox")) {
+      localStorage.setItem(
+        "inbox",
+        JSON.stringify(Display.containerObject.defaultProjects[0].taskList)
+      );
+      console.log("yes");
+    }
+    const inbox = JSON.parse(localStorage.getItem("inbox"));
+    Display.containerObject.defaultProjects[0].taskList = inbox;
+
+    // user projects storage
     if (!localStorage.getItem("projects")) {
       localStorage.setItem("projects", JSON.stringify([]));
     }
     const storedProjects = JSON.parse(localStorage.getItem("projects"));
     if (storedProjects.length > 0) {
       for (let i = 0; i < storedProjects.length; i++) {
-        console.log(storedProjects[i]);
         Display.containerObject.addProject(storedProjects[i].projectTitle);
         Display.containerObject.userProjects[i].taskList =
           storedProjects[i].taskList;
@@ -563,6 +574,14 @@ export default class Display {
         markTaskComplete.classList.add("active");
       }
     }
+
+    //save tasks in inbox storage
+    localStorage.setItem(
+      "inbox",
+      JSON.stringify(Display.containerObject.defaultProjects[0].taskList)
+    );
+
+    // save tasks in user projects storage
     localStorage.setItem(
       "projects",
       JSON.stringify(Display.containerObject.userProjects)
@@ -585,6 +604,7 @@ export default class Display {
       checkmark.classList.remove("active");
       findTask.completed = "no";
     }
+    Display.updateTaskList();
   }
 
   static expandTask(e) {
