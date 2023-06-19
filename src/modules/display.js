@@ -302,6 +302,12 @@ export default class Display {
     const titleInput = document.querySelector(".project-title-input");
     const title = titleInput.value;
 
+    if (title.length > 20) {
+      alert("Name too long, max length is 20 characters");
+      Display.addProject();
+      return;
+    }
+
     if (
       Display.containerObject.userProjects.find(
         (project) => project.projectTitle === title
