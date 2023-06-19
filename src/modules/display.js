@@ -554,10 +554,14 @@ export default class Display {
       taskRight.classList.add("task-right");
       taskDiv.appendChild(taskRight);
 
-      const taskDate = document.createElement("div");
-      taskDate.textContent = task.date;
-      taskDate.classList.add("task-date");
-      taskRight.appendChild(taskDate);
+      const datePicker = document.createElement("input");
+      datePicker.classList.add("task-date");
+      datePicker.value = task.date;
+      datePicker.setAttribute("type", "date");
+      let today = new Date().toISOString().split("T")[0];
+      datePicker.setAttribute("min", today);
+      datePicker.addEventListener("change", Display.chooseDate);
+      taskRight.appendChild(datePicker);
 
       const deleteTaskBtn = document.createElement("button");
       deleteTaskBtn.removeEventListener("click", Display.deleteTask);
@@ -635,12 +639,17 @@ export default class Display {
     document.querySelector(".task-title-input").focus();
   }
 
-  static chooseDate() {
-    const taskDateImg = document.querySelector(".task-date-image");
-    taskDateImg.classList.remove("active");
-
-    const taskDateInput = document.querySelector(".task-date-input");
-    taskDateInput.classList.add("active");
+  static chooseDate(e) {
+    console.log(e.target.parentNode.parentNode);
+    console.log(e.target.value);
+    const task = e.target.parentNode.parentNode;
+    const title = task.querySelector(".task-title").textContent;
+    const findTask = Display.findProject.taskList.find(
+      (task) => task.title === title
+    );
+    findTask.date = e.target.value;
+    console.log(findTask);
+    Display.updateTaskList();
   }
 
   static checkToday(date) {
