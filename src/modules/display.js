@@ -379,6 +379,9 @@ export default class Display {
     const userConfirm = prompt("Type 'delete' to delete project:", "");
     if (userConfirm === "delete") {
       Display.containerObject.userProjects.splice(projectIndex, 1);
+      const storedProjects = JSON.parse(localStorage.getItem("projects"));
+      storedProjects.splice(projectIndex, 1);
+      localStorage.setItem("projects", JSON.stringify(storedProjects));
       Display.updateUserProjectButtons();
       if (Display.findProject.projectTitle === projectTitle) {
         Display.loadInbox();
