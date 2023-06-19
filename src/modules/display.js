@@ -5,7 +5,6 @@ import addProjectImg from "../images/plus-circle.png";
 import inboxImg from "../images/inbox.svg";
 import todayImg from "../images/today.svg";
 import thisWeekImg from "../images/week.svg";
-import month from "../images/month.svg";
 import addTaskImg from "../images/pencil-plus.svg";
 import trashImg from "../images/trash.svg";
 
