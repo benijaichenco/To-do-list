@@ -156,3 +156,55 @@ body {
   position: relative;
   top: 1px;
 }
+
+.user-projects {
+}
+
+.main {
+  flex-grow: 1;
+  background-color: rgb(246, 246, 246);
+  padding: 20px;
+}
+
+.current-project-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+
+.add-task-button {
+  transition: 0.1s ease-in-out;
+  padding: 0 5px;
+  cursor: pointer;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+}
+
+.add-task-button:active {
+  transform: scale(0.97);
+}
+
+.add-task-icon img {
+  transition: 0.2s ease-in-out;
+  position: relative;
+  top: 2px;
+  height: 24px;
+}
+
+.add-task-button:hover .add-task-icon img {
+  transform: translateX(-5%);
+}
+
+.add-task-button-text {
+  transition: 0.2s ease-in-out;
+  transform: translateX(-5%);
+  opacity: 0;
+}
+
+.add-task-button:hover .add-task-button-text {
+  transform: translateX(0);
+  opacity: 1;
+}
