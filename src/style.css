@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
 .project-form-layout,
 .project-form,
 .task-form-layout,
@@ -5,8 +7,15 @@
   display: none;
 }
 
+.project-form-layout.active,
+.project-form.active,
+.task-form-layout.active,
+.task-form.active {
+  display: block;
+}
+
 * {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 body {
@@ -168,7 +177,6 @@ body {
 
 .current-project-title {
   font-size: 1.8rem;
-  font-weight: bold;
   margin-bottom: 3px;
 }
 
@@ -207,4 +215,19 @@ body {
 .add-task-button:hover .add-task-button-text {
   transform: translateX(0);
   opacity: 1;
+}
+
+.add-task-button-container {
+  position: relative;
+}
+
+.add-task-button-container:before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  bottom: -10px;
+  height: 1px;
+  width: 100%;
+  border-bottom: 1px solid rgb(190, 190, 190);
 }
