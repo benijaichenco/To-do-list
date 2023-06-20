@@ -18,6 +18,10 @@
   font-family: "Roboto", sans-serif;
 }
 
+button {
+  cursor: pointer;
+}
+
 body {
   margin: 0;
   height: 100vh;
@@ -43,7 +47,6 @@ body {
 }
 
 .logo-button {
-  cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -63,7 +66,6 @@ body {
 }
 
 .add-project {
-  cursor: pointer;
   border: none;
   transition: 0.3s ease-in-out;
   background-color: transparent;
@@ -80,7 +82,6 @@ body {
   padding-right: 8px;
   transition: 0.3s ease-in-out;
   font-size: 1rem;
-  font-weight: bold;
   color: rgb(238, 238, 238);
   transform: translateX(20%);
   opacity: 0;
@@ -118,6 +119,7 @@ body {
   background-color: rgb(228, 228, 228);
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
 }
 
 .default-projects {
@@ -126,7 +128,6 @@ body {
   flex-direction: column;
   padding: 20px 0;
   gap: 10px;
-  /* border-bottom: 1px solid rgb(165, 165, 165); */
 }
 
 .default-projects button {
@@ -135,7 +136,6 @@ body {
   gap: 5px;
   padding: 5px 15px;
   border: none;
-  cursor: pointer;
   background-color: rgb(228, 228, 228);
   transition: 0.15s ease-in-out;
   height: 50px;
@@ -167,12 +167,69 @@ body {
 }
 
 .user-projects {
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.user-project-container {
+  background-color: rgb(228, 228, 228);
+  transition: 0.1s ease-in-outl;
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.user-project-container:hover {
+  filter: brightness(1.05);
+}
+
+.user-project-left {
+  height: 100%;
+  flex-grow: 1;
+}
+
+.user-project-button {
+  padding: 0 25px;
+  background: none;
+  border: none;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-project-dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50px;
+  background-color: rgb(58, 58, 58);
+}
+
+.user-project-title {
+  font-size: 0.9rem;
+}
+
+.user-project-right {
+  padding-right: 25px;
+}
+
+.delete-project {
+  transition: 0.15s ease-in-out;
+  background: none;
+  border: none;
+}
+
+.delete-project:hover {
+  color: red;
 }
 
 .main {
   flex-grow: 1;
   background-color: rgb(246, 246, 246);
-  padding: 20px;
+  padding: 50px;
 }
 
 .current-project-title {
@@ -183,7 +240,6 @@ body {
 .add-task-button {
   transition: 0.1s ease-in-out;
   padding: 0 5px;
-  cursor: pointer;
   height: 30px;
   display: flex;
   align-items: center;
