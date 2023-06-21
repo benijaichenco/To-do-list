@@ -287,3 +287,154 @@ body {
   width: 100%;
   border-bottom: 1px solid rgb(190, 190, 190);
 }
+
+.tasks-container {
+  margin-top: 20px;
+}
+
+.task {
+  transition: all 0.15s ease-in-out;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  background-color: rgb(246, 246, 246);
+  height: 35px;
+}
+
+.task:hover {
+  filter: brightness(0.96);
+}
+
+.task.complete {
+  color: grey;
+}
+
+.task-left {
+  display: flex;
+  align-items: center;
+}
+
+input[type="checkbox"] {
+  flex-shrink: 0;
+  cursor: pointer;
+  position: relative;
+  appearance: none;
+  transition: all 0.3s ease;
+  height: 20px;
+  width: 20px;
+  &:after {
+    position: absolute;
+    content: "";
+    border-bottom: 1px solid;
+    width: 8px;
+    height: 0px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: unchecked 0.1s ease-in;
+  }
+}
+
+@keyframes unchecked {
+  0% {
+    border-bottom: solid 1px green;
+    border-left: solid 1px green;
+    height: 4px;
+    width: 10px;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  100% {
+    border-bottom: 1px solid;
+    width: 5px;
+    height: 0px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+input[type="checkbox"]:checked:after {
+  height: 0px;
+  border-bottom: solid 1px;
+  border-left: solid 1px;
+  animation: checked 0.3s ease-in forwards;
+}
+
+@keyframes checked {
+  25% {
+    left: 100%;
+    width: 1px;
+    transform: translate(-50%, -50%) rotate(0);
+  }
+
+  50% {
+    height: 0;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0);
+  }
+
+  66% {
+    top: 50%;
+  }
+
+  100% {
+    border-bottom: solid 1px green;
+    border-left: solid 1px green;
+    height: 4px;
+    width: 10px;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+}
+
+label {
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+input[type="checkbox"]:checked + label {
+  animation: marked 0.2s ease-in forwards;
+}
+
+input[type="checkbox"]:checked + label:before {
+  position: absolute;
+  content: "";
+  width: 0;
+  left: -10%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-bottom: 1px solid;
+  animation: cross 0.2s ease-in forwards;
+}
+
+@keyframes marked {
+  25% {
+    left: 0;
+  }
+
+  50% {
+    left: 15px;
+  }
+
+  100% {
+    left: 0;
+  }
+}
+
+@keyframes cross {
+  25% {
+    width: 0;
+  }
+  100% {
+    left: 0;
+    width: 100%;
+    border: 1px solid grey;
+  }
+}
