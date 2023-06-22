@@ -274,22 +274,28 @@ body {
 }
 
 .add-task-button-container {
+  display: none;
+}
+
+.add-task-button-container.active {
+  display: block;
   position: relative;
 }
 
-.add-task-button-container:before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  bottom: -12px;
-  height: 1px;
-  width: 100%;
-  border-bottom: 1px solid rgb(190, 190, 190);
+.tasks-container {
+  position: relative;
+  margin-top: 20px;
 }
 
-.tasks-container {
-  margin-top: 20px;
+.tasks-container:before {
+  position: absolute;
+  content: "";
+  border-top: 1px solid rgb(190, 190, 190);
+  left: 50%;
+  top: -5px;
+  transform: translate(-50%, -50%);
+  height: 1px;
+  width: 100%;
 }
 
 .task {
