@@ -258,11 +258,15 @@ export default class Display {
     const layout = document.createElement("div");
     layout.classList.add("project-form-layout");
     layout.removeEventListener("click", () => {
+      form.classList.remove("rendered");
       form.classList.remove("active");
+      layout.classList.remove("rendered");
       layout.classList.remove("active");
     });
     layout.addEventListener("click", () => {
+      form.classList.remove("rendered");
       form.classList.remove("active");
+      layout.classList.remove("rendered");
       layout.classList.remove("active");
     });
     body.appendChild(layout);
@@ -283,6 +287,7 @@ export default class Display {
     titleInput.classList.add("project-title-input");
     titleInput.setAttribute("type", "text");
     titleInput.setAttribute("placeholder", "Project Title");
+    titleInput.setAttribute("maxlength", "15");
     form.appendChild(titleInput);
 
     const submitBtn = document.createElement("button");
@@ -298,17 +303,13 @@ export default class Display {
   static submitProject() {
     const form = document.querySelector(".project-form");
     const layout = document.querySelector(".project-form-layout");
+    form.classList.remove("rendered");
     form.classList.remove("active");
+    layout.classList.remove("rendrered");
     layout.classList.remove("active");
 
     const titleInput = document.querySelector(".project-title-input");
     const title = titleInput.value;
-
-    if (title.length > 15) {
-      alert("Name too long, max length is 15 characters");
-      Display.addProject();
-      return;
-    }
 
     if (
       Display.containerObject.userProjects.find(
@@ -341,10 +342,15 @@ export default class Display {
 
   static addProject() {
     const form = document.querySelector(".project-form");
-    form.classList.add("active");
+    form.classList.add("rendered");
 
     const layout = document.querySelector(".project-form-layout");
-    layout.classList.add("active");
+    layout.classList.add("rendered");
+
+    setTimeout(function () {
+      form.classList.add("active");
+      layout.classList.add("active");
+    }, 1);
 
     document.querySelector(".project-title-input").focus();
   }
