@@ -59,10 +59,13 @@ export default class Display {
   // create header:
   static createHeader() {
     const body = document.body;
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("wrapper");
+    body.appendChild(wrapper);
 
     const header = document.createElement("header");
     header.classList.add("header");
-    body.appendChild(header);
+    wrapper.appendChild(header);
 
     const headerLeft = document.createElement("div");
     headerLeft.classList.add("header-left");
@@ -79,7 +82,7 @@ export default class Display {
 
     const logoText = document.createElement("h1");
     logoText.classList.add("logo-text");
-    logoText.textContent = "To-Do";
+    logoText.textContent = "ToDo";
     logoBtn.appendChild(logoText);
 
     const headerRight = document.createElement("div");
@@ -113,11 +116,11 @@ export default class Display {
 
   // create content:
   static createContent() {
-    const body = document.body;
+    const wrapper = document.querySelector(".wrapper");
 
     const content = document.createElement("div");
     content.classList.add("content");
-    body.appendChild(content);
+    wrapper.appendChild(content);
 
     // create sidebar inside content div:
     function createSidebar() {
@@ -301,8 +304,8 @@ export default class Display {
     const titleInput = document.querySelector(".project-title-input");
     const title = titleInput.value;
 
-    if (title.length > 20) {
-      alert("Name too long, max length is 20 characters");
+    if (title.length > 15) {
+      alert("Name too long, max length is 15 characters");
       Display.addProject();
       return;
     }
@@ -370,7 +373,7 @@ export default class Display {
       projectButton.appendChild(projectButtonDot);
 
       const projectButtonText = document.createElement("div");
-      projectButtonText.classList.add("sidebar-project-title");
+      projectButtonText.classList.add("user-project-title");
       projectButtonText.textContent = project.projectTitle;
       projectButton.appendChild(projectButtonText);
 
@@ -465,6 +468,14 @@ export default class Display {
 
     const title = document.querySelector(".task-title-input").value;
     if (title === null || title === "") {
+      alert("Please fill a title");
+      Display.addTask();
+      return;
+    }
+
+    if (title.length > 15) {
+      alert("Name too long, max length is 15 characters");
+      Display.addTask();
       return;
     }
 
@@ -539,14 +550,20 @@ export default class Display {
       taskLeft.classList.add("task-left");
       taskDiv.appendChild(taskLeft);
 
-      const markTaskComplete = document.createElement("button");
+      const markTaskComplete = document.createElement("input");
       markTaskComplete.classList.add("mark-task-complete");
-      markTaskComplete.removeEventListener("click", Display.completeTask);
-      markTaskComplete.addEventListener("click", Display.completeTask);
+      markTaskComplete.setAttribute("type", "checkbox");
+      markTaskComplete.setAttribute("id", `${task.title.replace(/\s/g, "")}`);
+      if (task.completed === "yes") {
+        markTaskComplete.setAttribute("checked", "");
+      }
+      markTaskComplete.removeEventListener("change", Display.completeTask);
+      markTaskComplete.addEventListener("change", Display.completeTask);
       taskLeft.appendChild(markTaskComplete);
 
-      const taskTitle = document.createElement("div");
+      const taskTitle = document.createElement("label");
       taskTitle.classList.add("task-title");
+      taskTitle.setAttribute("for", `${task.title.replace(/\s/g, "")}`);
       taskTitle.textContent = task.title;
       taskLeft.appendChild(taskTitle);
 
@@ -565,6 +582,7 @@ export default class Display {
       datePicker.setAttribute("type", "date");
       let today = new Date().toISOString().split("T")[0];
       datePicker.setAttribute("min", today);
+      datePicker.removeEventListener("change", Display.chooseDate);
       datePicker.addEventListener("change", Display.chooseDate);
       taskRight.appendChild(datePicker);
 
@@ -604,16 +622,18 @@ export default class Display {
     const findTask = Display.findProject.taskList.find(
       (task) => task.title === title
     );
-    if (!task.classList.value.includes("complete")) {
+    if (checkmark.checked) {
+      console.log(findTask);
+      console.log(checkmark.checked + " " + "checked!");
+      checkmark.checked = true;
       task.classList.add("complete");
-      checkmark.classList.add("active");
       findTask.completed = "yes";
     } else {
+      console.log(checkmark.checked + " " + "unchecked!");
       task.classList.remove("complete");
-      checkmark.classList.remove("active");
       findTask.completed = "no";
     }
-    Display.updateTaskList();
+    // Display.updateTaskList();
   }
 
   static expandTask(e) {
@@ -767,13 +787,26 @@ export default class Display {
     const projectTitle = Display.findProject.taskList[taskIndex].project;
 
     if (projectTitle === "Inbox") {
-      Display.containerObject.defaultProjects[0].taskList.splice(taskIndex, 1);
+      let accept = prompt(`Type "delete" to delete this task`, "");
+      if (accept === "delete") {
+        Display.containerObject.defaultProjects[0].taskList.splice(
+          taskIndex,
+          1
+        );
+      } else return;
     } else {
-      const findProject = Display.containerObject.userProjects.find(
-        (project) => project.projectTitle === projectTitle
-      );
+      let accept = prompt(`Type "delete" to delete this task`, "");
+      if (accept === "delete") {
+        Display.containerObject.defaultProjects[0].taskList.splice(
+          taskIndex,
+          1
+        );
+        const findProject = Display.containerObject.userProjects.find(
+          (project) => project.projectTitle === projectTitle
+        );
 
-      findProject.taskList.splice(taskIndex, 1);
+        findProject.taskList.splice(taskIndex, 1);
+      }
     }
 
     if (
