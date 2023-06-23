@@ -424,11 +424,15 @@ export default class Display {
     layout.classList.add("task-form-layout");
 
     layout.removeEventListener("click", () => {
+      form.classList.remove("rendered");
       form.classList.remove("active");
+      layout.classList.remove("rendered");
       layout.classList.remove("active");
     });
     layout.addEventListener("click", () => {
+      form.classList.remove("rendered");
       form.classList.remove("active");
+      layout.classList.remove("rendered");
       layout.classList.remove("active");
     });
 
@@ -449,6 +453,7 @@ export default class Display {
     const titleInput = document.createElement("input");
     titleInput.classList.add("task-title-input");
     titleInput.setAttribute("type", "text");
+    titleInput.setAttribute("maxlength", "15");
     titleInput.setAttribute("placeholder", "Task Title");
     form.appendChild(titleInput);
 
@@ -469,7 +474,9 @@ export default class Display {
   static submitTask() {
     const form = document.querySelector(".task-form");
     const layout = document.querySelector(".task-form-layout");
+    form.classList.remove("rendered");
     form.classList.remove("active");
+    layout.classList.remove("rendered");
     layout.classList.remove("active");
 
     const title = document.querySelector(".task-title-input").value;
@@ -662,10 +669,15 @@ export default class Display {
 
   static addTask() {
     const form = document.querySelector(".task-form");
-    form.classList.add("active");
+    form.classList.add("rendered");
 
     const layout = document.querySelector(".task-form-layout");
-    layout.classList.add("active");
+    layout.classList.add("rendered");
+
+    setTimeout(function () {
+      form.classList.add("active");
+      layout.classList.add("active");
+    }, 1);
 
     document.querySelector(".task-title-input").focus();
   }
