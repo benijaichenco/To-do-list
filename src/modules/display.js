@@ -305,7 +305,7 @@ export default class Display {
     const layout = document.querySelector(".project-form-layout");
     form.classList.remove("rendered");
     form.classList.remove("active");
-    layout.classList.remove("rendrered");
+    layout.classList.remove("rendered");
     layout.classList.remove("active");
 
     const titleInput = document.querySelector(".project-title-input");
