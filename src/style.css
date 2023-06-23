@@ -49,9 +49,9 @@ body {
   align-items: center;
   gap: 5px;
   box-shadow: 0 0 5px 0 grey;
-  border-radius: 5px;
-  height: 70px;
-  width: 225px;
+  border-radius: 15px;
+  height: 90px;
+  width: 265px;
   padding: 10px 20px;
 }
 
