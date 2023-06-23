@@ -7,6 +7,7 @@ import todayImg from "../images/today.svg";
 import thisWeekImg from "../images/week.svg";
 import addTaskImg from "../images/pencil-plus.svg";
 import trashImg from "../images/trash.svg";
+import "../style.css";
 
 // Display property names:
 //  Diplay.containerObject -> the container object loaded from 'container-object.js'.
